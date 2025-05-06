@@ -6,8 +6,8 @@ https://github.com/nixonboros/lego-collection-tracker-AppDevIOS
 
 ## Team Members
 - Nixon Boros - 24566667 
-- Rohan Gupta - (student num)
-- Michael Elasi - (student num)
+- Rohan Gupta - 25495033
+- Michael Elasi - 24844755
 
 ## Project App Features
 ### 1. Home Page
