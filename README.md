@@ -1,1 +1,1 @@
-# Lrgo Collection Tracker
+# Lego Collection Tracker
