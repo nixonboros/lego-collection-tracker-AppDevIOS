@@ -19,10 +19,10 @@ struct SetDetailPageView: View {
                     title: Text("Add to"),
                     buttons: [
                         .default(Text("Collection")) {
-                            // Add to collection logic
+                            // add collection logic
                         },
                         .default(Text("Wishlist")) {
-                            // Add to wishlist logic
+                            // add wishlist logic
                         },
                         .cancel()
                     ]
