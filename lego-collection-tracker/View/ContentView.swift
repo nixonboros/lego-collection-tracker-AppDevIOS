@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var scale: CGFloat = 0.8
-
     var body: some View {
         TabView {
             HomePageView()
