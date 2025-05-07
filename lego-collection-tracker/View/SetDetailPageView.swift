@@ -11,6 +11,7 @@ struct SetDetailPageView: View {
                 .font(.title)
             Text("Set Number: \(set.set_num)")
             Text("Year: \(set.year)")
+            Text("Number of Parts: \(set.num_parts)")
             Button("Add") {
                 showingActionSheet = true
             }
