@@ -14,20 +14,20 @@ https://github.com/nixonboros/lego-collection-tracker-AppDevIOS
 - **Purpose**: Quick overview of your collection and stats
 - **Functionality**: Acts as the central hub of the app, showing summary counts and navigation options
 - **Buttons**:
-  - `+ Add New Set` → navigates to *Add Set Page*
+  - `Browse` → navigates to Browse Page*
   - `View Collection` → navigates to *Collection Page*
   - `View Wishlist` → navigates to *Wishlist Page*
 
 ---
 
-### 2. Add Set Page
+### 2. Browse Page
 - **Purpose**: Search and add Lego sets from a built-in set database (using CSV data from Rebrickable)
 - **Functionality**: Search Lego sets by name/set number, filter results, and add selected sets to your collection
 - **Buttons**:
   - `Search` (real-time or submit)
   - `Filter` (theme/year)
   - `Add to Collection`
-  - `Cancel`
+  - `Add to Wishlist`
 
 ---
 
