@@ -14,44 +14,45 @@ struct BrowsePageView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 16) {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
-                    TextField("Search by Set Name", text: $searchText)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                }
-                .padding(10)
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-                .padding(.horizontal)
-
-                List(filteredSets) { set in
-                    NavigationLink(destination: SetDetailPageView(set: set)) {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(set.name)
-                                .font(.headline)
-                            Text("Set #: \(set.set_num)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.vertical, 4)
-                    }
-                }
-                .listStyle(InsetGroupedListStyle())
-            }
-            .navigationTitle("Browse Sets")
-            .background(
+            ZStack {
                 LinearGradient(
                     gradient: Gradient(colors: [Color(.systemGray6), Color.white]),
                     startPoint: .top,
                     endPoint: .bottom
                 )
                 .ignoresSafeArea()
-            )
-            .onAppear {
-                sets = SetController.loadSets()
+                
+                VStack(spacing: 16) {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.gray)
+                        TextField("Search by Set Name", text: $searchText)
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+                    }
+                    .padding(10)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+
+                    List(filteredSets) { set in
+                        NavigationLink(destination: SetDetailPageView(set: set)) {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(set.name)
+                                    .font(.headline)
+                                Text("Set #: \(set.set_num)")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(.vertical, 4)
+                        }
+                    }
+                    .listStyle(InsetGroupedListStyle())
+                }
+                .navigationTitle("Browse Sets")
+                .onAppear {
+                    sets = SetController.loadSets()
+                }
             }
         }
     }
