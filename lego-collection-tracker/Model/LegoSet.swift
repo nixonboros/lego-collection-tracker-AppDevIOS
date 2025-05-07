@@ -7,4 +7,5 @@ struct LegoSet: Identifiable {
     let year: Int
     let theme_id: Int
     let num_parts: Int
+    let img_url: String
 }

@@ -35,8 +35,9 @@ class SetController {
                 let year = Int(values[2]) ?? 0
                 let theme_id = Int(values[3]) ?? 0
                 let num_parts = Int(values[4]) ?? 0
+                let img_url = values[5]
 
-                let legoSet = LegoSet(set_num: set_num, name: name, year: year, theme_id: theme_id, num_parts: num_parts)
+                let legoSet = LegoSet(set_num: set_num, name: name, year: year, theme_id: theme_id, num_parts: num_parts, img_url: img_url)
                 legoSets.append(legoSet)
             }
         }

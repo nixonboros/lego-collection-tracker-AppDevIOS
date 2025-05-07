@@ -12,6 +12,14 @@ struct SetDetailPageView: View {
             Text("Set Number: \(set.set_num)")
             Text("Year: \(set.year)")
             Text("Number of Parts: \(set.num_parts)")
+            AsyncImage(url: URL(string: set.img_url)) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 200, height: 200)
             Button("Add") {
                 showingActionSheet = true
             }
