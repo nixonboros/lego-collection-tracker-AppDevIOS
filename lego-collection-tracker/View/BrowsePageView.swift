@@ -15,7 +15,7 @@ struct BrowsePageView: View {
     var body: some View {
         NavigationView {
             VStack {
-                TextField("Search by set name", text: $searchText)
+                TextField("Search by Set Name", text: $searchText)
                     .padding()
 
                 List(filteredSets) { set in
