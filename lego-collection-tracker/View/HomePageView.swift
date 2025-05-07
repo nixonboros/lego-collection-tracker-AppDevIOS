@@ -35,7 +35,7 @@ struct HomePageView: View {
                                     .foregroundColor(.gray)
                                 Text("0")
                                     .font(.system(size: 48, weight: .bold))
-                                    .foregroundColor(.orange)
+                                    .foregroundColor(.gray)
                             }
                         )
                         .padding(.horizontal)
