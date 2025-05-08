@@ -3,12 +3,37 @@ import SwiftUI
 struct BrowsePageView: View {
     @State private var sets: [LegoSet] = []
     @State private var searchText = ""
+    @State private var searchMode: SearchMode = .name
+    @State private var sortMode: SortMode = .name
 
-    var filteredSets: [LegoSet] {
-        if searchText.isEmpty {
-            return sets
-        } else {
-            return sets.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+    enum SearchMode: String, CaseIterable, Identifiable {
+        case name = "Name"
+        case setNumber = "Set Number"
+        var id: String { self.rawValue }
+    }
+
+    enum SortMode: String, CaseIterable, Identifiable {
+        case name = "Name"
+        case year = "Year"
+        var id: String { self.rawValue }
+    }
+
+    var filteredAndSortedSets: [LegoSet] {
+        let filtered: [LegoSet] = {
+            guard !searchText.isEmpty else { return sets }
+            switch searchMode {
+            case .name:
+                return sets.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            case .setNumber:
+                return sets.filter { $0.set_num.localizedCaseInsensitiveContains(searchText) }
+            }
+        }()
+        
+        switch sortMode {
+        case .name:
+            return filtered.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        case .year:
+            return filtered.sorted { $0.year < $1.year }
         }
     }
 
@@ -21,12 +46,12 @@ struct BrowsePageView: View {
                     endPoint: .bottom
                 )
                 .ignoresSafeArea()
-                
+
                 VStack(spacing: 16) {
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
-                        TextField("Search by Set Name", text: $searchText)
+                        TextField("Search...", text: $searchText)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
@@ -35,12 +60,31 @@ struct BrowsePageView: View {
                     .cornerRadius(10)
                     .padding(.horizontal)
 
-                    List(filteredSets) { set in
+                    Picker("Search Mode", selection: $searchMode) {
+                        ForEach(SearchMode.allCases) { mode in
+                            Text(mode.rawValue).tag(mode)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal)
+                    
+                    Picker("Sort By", selection: $sortMode) {
+                        ForEach(SortMode.allCases) { mode in
+                            Text(mode.rawValue).tag(mode)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal)
+
+                    List(filteredAndSortedSets) { set in
                         NavigationLink(destination: SetDetailPageView(set: set)) {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text(set.name)
                                     .font(.headline)
                                 Text("Set #: \(set.set_num)")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                Text("Year: \(set.year)")
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                             }
