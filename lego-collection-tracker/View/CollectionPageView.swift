@@ -10,7 +10,8 @@ struct CollectionPageView: View {
                 LinearGradient(
                     gradient: Gradient(colors: [
                         Color(.systemBackground),
-                        Color(.systemGray6).opacity(0.4)
+                        Color.primaryRed.opacity(0.05),
+                        Color.primaryBlue.opacity(0.05)
                     ]),
                     startPoint: .top,
                     endPoint: .bottom
@@ -24,11 +25,11 @@ struct CollectionPageView: View {
                             // Decorative circles
                             ZStack {
                                 Circle()
-                                    .fill(Color.orange.opacity(0.1))
+                                    .fill(Color.primaryRed.opacity(0.1))
                                     .frame(width: 120, height: 120)
                                 
                                 Circle()
-                                    .fill(Color.blue.opacity(0.1))
+                                    .fill(Color.primaryRed.opacity(0.1))
                                     .frame(width: 90, height: 90)
                                     .offset(x: 15, y: -10)
                                 
@@ -38,12 +39,12 @@ struct CollectionPageView: View {
                                     .frame(width: 40, height: 40)
                                     .foregroundStyle(
                                         LinearGradient(
-                                            colors: [.orange, .red],
+                                            colors: [Color.primaryRed, Color.primaryRed.opacity(0.8)],
                                             startPoint: .topLeading,
                                             endPoint: .bottomTrailing
                                         )
                                     )
-                                    .shadow(color: .orange.opacity(0.3), radius: 8, x: 0, y: 4)
+                                    .shadow(color: Color.primaryRed.opacity(0.3), radius: 8, x: 0, y: 4)
                             }
                             
                             VStack(spacing: 8) {

@@ -55,17 +55,17 @@ struct WishlistPageView: View {
                             ZStack {
                                 Circle()
                                     .fill(Color.primaryRed.opacity(0.1))
-                                    .frame(width: 130, height: 130)
+                                    .frame(width: 120, height: 120)
                                 
                                 Circle()
                                     .fill(Color.primaryRed.opacity(0.1))
-                                    .frame(width: 100, height: 100)
+                                    .frame(width: 90, height: 90)
                                     .offset(x: 15, y: -10)
                                 
                                 Image(systemName: "heart.fill")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 55, height: 55)
+                                    .frame(width: 40, height: 40)
                                     .foregroundStyle(
                                         LinearGradient(
                                             colors: [Color.primaryRed, Color.primaryRed.opacity(0.8)],
@@ -77,15 +77,27 @@ struct WishlistPageView: View {
                             }
                             
                             VStack(spacing: 8) {
-                                Text("Your wishlist is empty")
-                                    .font(.system(size: 24, weight: .light))
-                                    .foregroundColor(.primary)
-                                
-                                Text("Start adding LEGO sets to your wishlist")
-                                    .font(.system(size: 16, weight: .regular))
-                                    .foregroundColor(.gray.opacity(0.8))
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal, 40)
+                                if wishlistSets.isEmpty {
+                                    Text("Your wishlist is empty")
+                                        .font(.system(size: 24, weight: .light))
+                                        .foregroundColor(.primary)
+                                    
+                                    Text("Start adding LEGO sets to your wishlist")
+                                        .font(.system(size: 16, weight: .regular))
+                                        .foregroundColor(.gray.opacity(0.8))
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal, 40)
+                                } else {
+                                    Text("No sets found")
+                                        .font(.system(size: 24, weight: .light))
+                                        .foregroundColor(.primary)
+                                    
+                                    Text("Try adjusting your search")
+                                        .font(.system(size: 16, weight: .regular))
+                                        .foregroundColor(.gray.opacity(0.8))
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal, 40)
+                                }
                             }
                         }
                         Spacer()
