@@ -4,6 +4,7 @@ struct SetDetailPageView: View {
     let set: LegoSetModel
     @State private var showingActionSheet = false
     @State private var isLoaded = false
+    @State private var isInWishlist = false
     
     var body: some View {
         ZStack {
@@ -117,9 +118,9 @@ struct SetDetailPageView: View {
                         showingActionSheet = true
                     }) {
                         HStack {
-                            Image(systemName: "plus.circle.fill")
+                            Image(systemName: isInWishlist ? "heart.fill" : "plus.circle.fill")
                                 .font(.system(size: 18))
-                            Text("Add to...")
+                            Text(isInWishlist ? "Remove from Wishlist" : "Add to...")
                                 .font(.system(size: 16, weight: .medium))
                         }
                         .frame(maxWidth: .infinity)
@@ -127,8 +128,8 @@ struct SetDetailPageView: View {
                         .background(
                             LinearGradient(
                                 gradient: Gradient(colors: [
-                                    Color(red: 0.2, green: 0.5, blue: 0.9),
-                                    Color(red: 0.2, green: 0.5, blue: 0.9).opacity(0.8)
+                                    isInWishlist ? Color(red: 0.9, green: 0.3, blue: 0.3) : Color(red: 0.2, green: 0.5, blue: 0.9),
+                                    isInWishlist ? Color(red: 0.9, green: 0.3, blue: 0.3).opacity(0.8) : Color(red: 0.2, green: 0.5, blue: 0.9).opacity(0.8)
                                 ]),
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -136,7 +137,7 @@ struct SetDetailPageView: View {
                         )
                         .foregroundColor(.white)
                         .cornerRadius(16)
-                        .shadow(color: Color(red: 0.2, green: 0.5, blue: 0.9).opacity(0.3), radius: 8, x: 0, y: 4)
+                        .shadow(color: (isInWishlist ? Color(red: 0.9, green: 0.3, blue: 0.3) : Color(red: 0.2, green: 0.5, blue: 0.9)).opacity(0.3), radius: 8, x: 0, y: 4)
                     }
                     .padding(.horizontal)
                     .offset(y: isLoaded ? 0 : 20)
@@ -145,11 +146,18 @@ struct SetDetailPageView: View {
                         ActionSheet(
                             title: Text("Add to"),
                             buttons: [
-                                .default(Text("Collection")) {
-                                    // Add to collection logic
+                                .default(Text("Add to Collection")) {
+                                    // Add to Collection logic
+                                    
                                 },
-                                .default(Text("Wishlist")) {
-                                    // Add to wishlist logic
+                                .default(Text(isInWishlist ? "Remove from Wishlist" : "Add to Wishlist")) {
+                                    // Add to Wishlist logic
+                                    if isInWishlist {
+                                        DataController.removeFromWishlist(set)
+                                    } else {
+                                        DataController.addToWishlist(set)
+                                    }
+                                    isInWishlist.toggle()
                                 },
                                 .cancel()
                             ]
@@ -161,6 +169,7 @@ struct SetDetailPageView: View {
         }
         .onAppear {
             isLoaded = false
+            isInWishlist = DataController.isInWishlist(set)
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.1)) {
                 isLoaded = true
             }

@@ -1,7 +1,7 @@
 import Foundation
 
 // LegoSetModel represents Lego set with the following properties:
-struct LegoSetModel: Identifiable {
+struct LegoSetModel: Identifiable, Codable {
     let id = UUID()
     let set_num: String
     let name: String
