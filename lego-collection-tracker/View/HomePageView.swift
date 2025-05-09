@@ -77,17 +77,11 @@ struct HomePageView: View {
                                 .opacity(isLoaded ? 1 : 0)
                             
                             // Logo
-                    Image(systemName: "cube.box.fill")
-                        .resizable()
-                        .scaledToFit()
-                                .frame(width: 45, height: 45)
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [Color.primaryRed, Color.primaryYellow],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
+                            Image("legoBlock")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 80, height: 80)
+                                .foregroundColor(Color.primaryRed)
                                 .shadow(color: Color.primaryRed.opacity(0.3), radius: 8, x: 0, y: 4)
                                 .scaleEffect(isLoaded ? 1 : 0.5)
                                 .opacity(isLoaded ? 1 : 0)
@@ -98,13 +92,7 @@ struct HomePageView: View {
                         VStack(spacing: 6) {
                             Text("LEGO")
                                 .font(.system(size: 32, weight: .bold))
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [Color.primaryRed, Color.primaryBlue],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                )
+                                .foregroundColor(.black)
                                 .offset(y: isLoaded ? 0 : 20)
                                 .opacity(isLoaded ? 1 : 0)
                             
