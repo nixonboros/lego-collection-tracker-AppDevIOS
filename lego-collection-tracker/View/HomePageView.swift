@@ -1,11 +1,13 @@
 import SwiftUI
 
 struct HomePageView: View {
+    @State private var isLoaded = false
+    
     var body: some View {
         NavigationView {
             ZStack {
                 ZStack {
-                    // Linearr gradient
+                    // Linear gradient
                     LinearGradient(
                         gradient: Gradient(colors: [
                             Color(.systemBackground),
@@ -63,11 +65,15 @@ struct HomePageView: View {
                             Circle()
                                 .fill(Color.orange.opacity(0.1))
                                 .frame(width: 130, height: 130)
+                                .scaleEffect(isLoaded ? 1 : 0.8)
+                                .opacity(isLoaded ? 1 : 0)
                             
                             Circle()
                                 .fill(Color.blue.opacity(0.1))
                                 .frame(width: 100, height: 100)
                                 .offset(x: 15, y: -10)
+                                .scaleEffect(isLoaded ? 1 : 0.8)
+                                .opacity(isLoaded ? 1 : 0)
                             
                             // Logo
                             Image(systemName: "cube.box.fill")
@@ -82,6 +88,8 @@ struct HomePageView: View {
                                     )
                                 )
                                 .shadow(color: .orange.opacity(0.3), radius: 8, x: 0, y: 4)
+                                .scaleEffect(isLoaded ? 1 : 0.5)
+                                .opacity(isLoaded ? 1 : 0)
                         }
                         .padding(.top, 10)
                         
@@ -90,16 +98,22 @@ struct HomePageView: View {
                             Text("LEGO")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundColor(.primary)
+                                .offset(y: isLoaded ? 0 : 20)
+                                .opacity(isLoaded ? 1 : 0)
                             
                             Text("Collection Tracker")
                                 .font(.system(size: 24, weight: .light))
                                 .foregroundColor(.gray)
+                                .offset(y: isLoaded ? 0 : 20)
+                                .opacity(isLoaded ? 1 : 0)
                             
                             Text("Track your sets and build your collection")
                                 .font(.system(size: 16, weight: .regular))
                                 .foregroundColor(.gray.opacity(0.8))
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
+                                .offset(y: isLoaded ? 0 : 20)
+                                .opacity(isLoaded ? 1 : 0)
                         }
                     }
                     
@@ -119,6 +133,7 @@ struct HomePageView: View {
                             )
                             .frame(height: 1)
                             .padding(.horizontal, 40)
+                            .opacity(isLoaded ? 1 : 0)
                         
                         // Collection Stats
                         VStack(spacing: 15) {
@@ -173,6 +188,8 @@ struct HomePageView: View {
                                     .fill(Color(.systemBackground))
                                     .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 3)
                             )
+                            .offset(y: isLoaded ? 0 : 30)
+                            .opacity(isLoaded ? 1 : 0)
                             
                             // Wishlist
                             HStack(spacing: 15) {
@@ -214,6 +231,8 @@ struct HomePageView: View {
                                     .fill(Color(.systemBackground))
                                     .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 3)
                             )
+                            .offset(y: isLoaded ? 0 : 30)
+                            .opacity(isLoaded ? 1 : 0)
                         }
                         .padding(.horizontal)
                     }
@@ -221,6 +240,15 @@ struct HomePageView: View {
                 .padding(.bottom, 20)
             }
             .navigationBarHidden(true)
+            .onAppear {
+                isLoaded = false
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                    isLoaded = true
+                }
+            }
+            .onDisappear {
+                isLoaded = false
+            }
         }
     }
 }
