@@ -3,6 +3,9 @@ import SwiftUI
 struct HomePageView: View {
     @State private var isLoaded = false
     @State private var wishlistCount = 0
+    @State private var favoriteSets: [LegoSetModel] = []
+    @State private var currentIndex = 0
+    @State private var timer: Timer?
     
     var body: some View {
         NavigationView {
@@ -121,48 +124,65 @@ struct HomePageView: View {
                         ], spacing: 15) {
                             // Total Sets Card
                             VStack(alignment: .leading, spacing: 12) {
-                                HStack {
+                                // Header
+                                HStack(spacing: 12) {
                                     Image(systemName: "cube.box.fill")
                                         .font(.system(size: 20))
                                         .foregroundColor(Color.primaryBlue)
-                                        .frame(width: 32, height: 32)
+                                        .frame(width: 40, height: 40)
                                         .background(
                                             Circle()
                                                 .fill(Color.primaryBlue.opacity(0.15))
                                         )
                                     
-                                    Spacer()
-                                    
-                                    Text("0")
-                                        .font(.system(size: 24, weight: .bold))
-                                        .foregroundColor(.primary)
-                                }
-                                
-                                Text("Total Sets")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(.gray)
-                                
-                                // Built/Unbuilt indicator
-                                HStack(spacing: 12) {
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text("Built")
-                                            .font(.system(size: 12, weight: .medium))
+                                        Text("Total Sets")
+                                            .font(.system(size: 14, weight: .medium))
                                             .foregroundColor(.gray)
                                         Text("0")
-                                            .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(.gray.opacity(0.8))
-                                    }
-                                    
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text("Unbuilt")
-                                            .font(.system(size: 12, weight: .medium))
-                                            .foregroundColor(.gray)
-                                        Text("0")
-                                            .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(.gray.opacity(0.8))
+                                            .font(.system(size: 24, weight: .bold))
+                                            .foregroundColor(.primary)
                                     }
                                 }
+                                
+                                Divider()
+                                    .background(Color.gray.opacity(0.2))
+                                
+                                // Stats
+                                HStack(spacing: 20) {
+                                    // Built
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .font(.system(size: 12))
+                                                .foregroundColor(Color.primaryBlue)
+                                            Text("Built")
+                                                .font(.system(size: 12, weight: .medium))
+                                                .foregroundColor(.gray)
+                                        }
+                                        Text("0")
+                                            .font(.system(size: 16, weight: .bold))
+                                            .foregroundColor(.primary)
+                                    }
+                                    
+                                    // Unbuilt
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "circle")
+                                                .font(.system(size: 12))
+                                                .foregroundColor(Color.primaryBlue)
+                                            Text("Unbuilt")
+                                                .font(.system(size: 12, weight: .medium))
+                                                .foregroundColor(.gray)
+                                        }
+                                        Text("0")
+                                            .font(.system(size: 16, weight: .bold))
+                                            .foregroundColor(.primary)
+                                    }
+                                }
+                                Spacer()
                             }
+                            .frame(height: 160)
                             .padding(16)
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
@@ -174,37 +194,71 @@ struct HomePageView: View {
                             
                             // Wishlist Card
                             VStack(alignment: .leading, spacing: 12) {
-                                HStack {
+                                // Header
+                                HStack(spacing: 12) {
                                     Image(systemName: "heart.fill")
                                         .font(.system(size: 20))
                                         .foregroundColor(Color.primaryRed)
-                                        .frame(width: 32, height: 32)
+                                        .frame(width: 40, height: 40)
                                         .background(
                                             Circle()
                                                 .fill(Color.primaryRed.opacity(0.15))
                                         )
                                     
-                                    Spacer()
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("Wishlist")
+                                            .font(.system(size: 14, weight: .medium))
+                                            .foregroundColor(.gray)
+                                        Text("\(wishlistCount)")
+                                            .font(.system(size: 24, weight: .bold))
+                                            .foregroundColor(.primary)
+                                    }
+                                }
+                                
+                                Divider()
+                                    .background(Color.gray.opacity(0.2))
+                                
+                                // Next purchase carousel
+                                VStack(alignment: .leading, spacing: 4) {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "star.fill")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(Color.primaryRed)
+                                        Text("Next Purchase")
+                                            .font(.system(size: 12, weight: .medium))
+                                            .foregroundColor(.gray)
+                                    }
                                     
-                                    Text("\(wishlistCount)")
-                                        .font(.system(size: 24, weight: .bold))
-                                        .foregroundColor(.primary)
+                                    if favoriteSets.isEmpty {
+                                        Text("None")
+                                            .font(.system(size: 16, weight: .bold))
+                                            .foregroundColor(.gray.opacity(0.8))
+                                    } else {
+                                        TabView(selection: $currentIndex) {
+                                            ForEach(Array(favoriteSets.enumerated()), id: \.element.id) { index, set in
+                                                HStack {
+                                                    VStack(alignment: .leading, spacing: 4) {
+                                                        Text(set.name)
+                                                            .font(.system(size: 14, weight: .bold))
+                                                            .foregroundColor(.gray.opacity(0.8))
+                                                            .lineLimit(1)
+                                                        
+                                                        Text(set.set_num)
+                                                            .font(.system(size: 12, weight: .medium))
+                                                            .foregroundColor(.gray.opacity(0.6))
+                                                    }
+                                                    Spacer()
+                                                }
+                                                .tag(index)
+                                            }
+                                        }
+                                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                                        .frame(height: 40)
+                                    }
                                 }
-                                
-                                Text("Wishlist")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(.gray)
-                                
-                                // Next purchase indicator
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("Next Purchase")
-                                        .font(.system(size: 12, weight: .medium))
-                                        .foregroundColor(.gray)
-                                    Text("None")
-                                        .font(.system(size: 14, weight: .bold))
-                                        .foregroundColor(.gray.opacity(0.8))
-                                }
+                                Spacer()
                             }
+                            .frame(height: 160)
                             .padding(16)
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
@@ -222,15 +276,42 @@ struct HomePageView: View {
             .navigationBarHidden(true)
             .onAppear {
                 isLoaded = false
-                wishlistCount = DataController.loadWishlist().count
+                let wishlist = DataController.loadWishlist()
+                wishlistCount = wishlist.count
+                favoriteSets = wishlist.filter { $0.isFavorite }
+                
+                // Start auto-scrolling timer
+                startAutoScroll()
+                
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                     isLoaded = true
                 }
             }
             .onDisappear {
                 isLoaded = false
+                stopAutoScroll()
             }
         }
+    }
+    
+    private func startAutoScroll() {
+        // Stop any existing timer
+        stopAutoScroll()
+        
+        // Only start auto-scroll if we have items
+        guard !favoriteSets.isEmpty else { return }
+        
+        // Create a new timer that fires every 3 seconds
+        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
+            withAnimation {
+                currentIndex = (currentIndex + 1) % favoriteSets.count
+            }
+        }
+    }
+    
+    private func stopAutoScroll() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
