@@ -2,73 +2,126 @@ import SwiftUI
 
 struct SetDetailPageView: View {
     let set: LegoSetModel
-
     @State private var showingActionSheet = false
 
     var body: some View {
         ZStack {
-            Color(.systemGroupedBackground).ignoresSafeArea()
+            // Linear gradient
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(.systemBackground),
+                    Color(.systemGray6).opacity(0.4)
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
             
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 25) {
+                    // Set Name
                     Text(set.name)
-                        .font(.title)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 24, weight: .light))
                         .multilineTextAlignment(.center)
-                        .padding(.top)
+                        .padding(.top, 20)
+                        .padding(.horizontal, 20)
 
+                    // Set Image
                     AsyncImage(url: URL(string: set.img_url)) { image in
                         image
                             .resizable()
                             .scaledToFit()
-                            .cornerRadius(16)
-                            .shadow(radius: 5)
+                            .cornerRadius(20)
+                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
                     } placeholder: {
                         ProgressView()
+                            .frame(width: 250, height: 250)
                     }
                     .frame(width: 250, height: 250)
 
-                    VStack(alignment: .leading, spacing: 10) {
+                    // Set Details Card
+                    VStack(alignment: .leading, spacing: 16) {
+                        // Set Number
                         HStack {
-                            Text("Set Number:")
-                                .fontWeight(.semibold)
+                            Image(systemName: "number")
+                                .foregroundColor(Color(red: 0.2, green: 0.5, blue: 0.9))
+                                .frame(width: 24)
+                            Text("Set Number")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.gray)
                             Spacer()
                             Text(set.set_num)
-                                .foregroundColor(.gray)
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.primary)
                         }
 
+                        Divider()
+                            .background(Color.gray.opacity(0.2))
+
+                        // Year
                         HStack {
-                            Text("Year:")
-                                .fontWeight(.semibold)
+                            Image(systemName: "calendar")
+                                .foregroundColor(Color(red: 0.2, green: 0.5, blue: 0.9))
+                                .frame(width: 24)
+                            Text("Year")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.gray)
                             Spacer()
                             Text("\(set.year)")
-                                .foregroundColor(.gray)
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.primary)
                         }
 
+                        Divider()
+                            .background(Color.gray.opacity(0.2))
+
+                        // Number of Parts
                         HStack {
-                            Text("Number of Parts:")
-                                .fontWeight(.semibold)
+                            Image(systemName: "cube.box.fill")
+                                .foregroundColor(Color(red: 0.2, green: 0.5, blue: 0.9))
+                                .frame(width: 24)
+                            Text("Number of Parts")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.gray)
                             Spacer()
                             Text("\(set.num_parts)")
-                                .foregroundColor(.gray)
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.primary)
                         }
                     }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(16)
+                    .padding(20)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(.systemBackground))
+                            .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+                    )
                     .padding(.horizontal)
 
+                    // Add to Button
                     Button(action: {
                         showingActionSheet = true
                     }) {
-                        Text("Add to...")
-                            .fontWeight(.medium)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.accentColor)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                            .shadow(radius: 3)
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 18))
+                            Text("Add to...")
+                                .font(.system(size: 16, weight: .medium))
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color(red: 0.2, green: 0.5, blue: 0.9),
+                                    Color(red: 0.2, green: 0.5, blue: 0.9).opacity(0.8)
+                                ]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .foregroundColor(.white)
+                        .cornerRadius(16)
+                        .shadow(color: Color(red: 0.2, green: 0.5, blue: 0.9).opacity(0.3), radius: 8, x: 0, y: 4)
                     }
                     .padding(.horizontal)
                     .actionSheet(isPresented: $showingActionSheet) {
@@ -86,7 +139,7 @@ struct SetDetailPageView: View {
                         )
                     }
                 }
-                .padding(.bottom)
+                .padding(.bottom, 30)
             }
         }
     }

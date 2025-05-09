@@ -6,7 +6,7 @@ struct WishlistPageView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background with gradient
+                // Liniear gradient
                 LinearGradient(
                     gradient: Gradient(colors: [
                         Color(.systemBackground),

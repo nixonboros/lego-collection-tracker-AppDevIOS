@@ -6,7 +6,7 @@ struct CollectionPageView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background with gradient
+                // Linear gradient
                 LinearGradient(
                     gradient: Gradient(colors: [
                         Color(.systemBackground),
