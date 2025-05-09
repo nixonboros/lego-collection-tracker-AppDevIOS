@@ -14,6 +14,7 @@ struct SortOptions {
 }
 
 class SortController {
+    // Returns appropriate label text for sort direction based on sort criteria and ascending/descending order selected
     static func getSortDirectionLabel(for options: SortOptions) -> String {
         switch options.criteria {
         case .name, .setNumber:
@@ -25,6 +26,7 @@ class SortController {
         }
     }
 
+    // Returns appropriate icon for sort direction based on sort criteria and ascending/descending order selected
     static func getSortDirectionIcon(for options: SortOptions) -> String {
         switch options.criteria {
         case .name, .setNumber:
@@ -36,6 +38,7 @@ class SortController {
         }
     }
 
+    // Filters array of Lego sets by search text and sorts by given criteria and direction
     static func filterAndSort(sets: [LegoSetModel], searchText: String, options: SortOptions) -> [LegoSetModel] {
         let filtered = sets.filter { set in
             guard !searchText.isEmpty else { return true }
@@ -66,4 +69,4 @@ class SortController {
             return options.isAscending ? comparison == .orderedAscending : comparison == .orderedDescending
         }
     }
-} 
+}

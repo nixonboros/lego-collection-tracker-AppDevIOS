@@ -1,9 +1,10 @@
 import Foundation
 
 class DataController {
+    // Loads sets.csv file and returns array of LegoSetModel objects
     static func loadSets() -> [LegoSetModel] {
         guard let path = Bundle.main.path(forResource: "sets", ofType: "csv") else {
-            print("Could not find sets.csv in main bundle")
+            print("Could not find sets.csv")
             return []
         }
 
@@ -16,6 +17,7 @@ class DataController {
         }
     }
 
+    // Parses sets.csv file and returns array of LegoSetModel objects
     private static func parseCSV(text: String) -> [LegoSetModel] {
         var lines: [String] = []
         text.enumerateLines { line, _ in
