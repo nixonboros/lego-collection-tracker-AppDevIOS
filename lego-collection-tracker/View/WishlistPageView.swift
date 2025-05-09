@@ -3,15 +3,12 @@ import SwiftUI
 struct WishlistPageView: View {
     @State private var wishlistSets: [LegoSetModel] = []
     @State private var searchText = ""
+    @State private var sortOptions = SortOptions(criteria: .name, isAscending: true)
     
     var filteredSets: [LegoSetModel] {
-        if searchText.isEmpty {
-            return wishlistSets
-        }
-        return wishlistSets.filter { set in
-            set.name.localizedCaseInsensitiveContains(searchText) ||
-            set.set_num.localizedCaseInsensitiveContains(searchText)
-        }
+        let filtered = SortController.filterAndSort(sets: wishlistSets, searchText: searchText, options: sortOptions)
+        // Sort to show favorited items first
+        return filtered.sorted { $0.isFavorite && !$1.isFavorite }
     }
 
     var body: some View {
@@ -30,22 +27,81 @@ struct WishlistPageView: View {
                 .ignoresSafeArea()
                 
                 VStack(spacing: 0) {
-                    // Search Control
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(Color.primaryBlue)
-                            .frame(width: 24)
-                        TextField("Search wishlist...", text: $searchText)
-                            .font(.system(size: 16, weight: .regular))
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
+                    // Search and Sort Controls
+                    VStack(spacing: 16) {
+                        // Search field
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(Color.primaryBlue)
+                                .frame(width: 24)
+                            TextField("Search wishlist...", text: $searchText)
+                                .font(.system(size: 16, weight: .regular))
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
+                        }
+                        .padding(16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+                        )
+                        
+                        // Sort controls
+                        HStack(spacing: 12) {
+                            // Sort criteria menu
+                            Menu {
+                                ForEach(SortCriteria.allCases) { criteria in
+                                    Button(action: {
+                                        sortOptions.criteria = criteria
+                                    }) {
+                                        HStack {
+                                            Text(criteria.rawValue)
+                                            if sortOptions.criteria == criteria {
+                                                Image(systemName: "checkmark")
+                                            }
+                                        }
+                                    }
+                                }
+                            } label: {
+                                HStack {
+                                    Image(systemName: "arrow.up.arrow.down")
+                                        .foregroundColor(Color.primaryBlue)
+                                        .frame(width: 24)
+                                    Text("Sort by \(sortOptions.criteria.rawValue)")
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.primary)
+                                    Spacer()
+                                    Image(systemName: "chevron.up.chevron.down")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
+                                }
+                                .padding(16)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(Color(.systemBackground))
+                                        .shadow(color: Color.primaryBlue.opacity(0.1), radius: 10, x: 0, y: 5)
+                                )
+                            }
+                            
+                            // Sort direction button
+                            Button(action: { sortOptions.isAscending.toggle() }) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: SortController.getSortDirectionIcon(for: sortOptions))
+                                        .foregroundColor(Color.primaryBlue)
+                                        .frame(width: 24)
+                                    Text(SortController.getSortDirectionLabel(for: sortOptions))
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.primary)
+                                }
+                                .padding(16)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(Color(.systemBackground))
+                                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+                                )
+                            }
+                        }
                     }
-                    .padding(16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color(.systemBackground))
-                            .shadow(color: Color.primaryBlue.opacity(0.1), radius: 10, x: 0, y: 5)
-                    )
                     .padding(20)
                     
                     if filteredSets.isEmpty {
@@ -136,6 +192,18 @@ struct WishlistPageView: View {
                                                     .foregroundColor(.gray)
                                             }
                                         }
+                                        
+                                        Spacer()
+                                        
+                                        // Favorite Button
+                                        Button(action: {
+                                            toggleFavorite(set)
+                                        }) {
+                                            Image(systemName: set.isFavorite ? "star.fill" : "star")
+                                                .foregroundColor(set.isFavorite ? .yellow : .gray)
+                                                .font(.system(size: 20))
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
                                     }
                                     .padding(.vertical, 12)
                                 }
@@ -149,6 +217,13 @@ struct WishlistPageView: View {
         }
         .onAppear {
             wishlistSets = DataController.loadWishlist()
+        }
+    }
+    
+    private func toggleFavorite(_ set: LegoSetModel) {
+        if let index = wishlistSets.firstIndex(where: { $0.id == set.id }) {
+            wishlistSets[index].isFavorite.toggle()
+            DataController.saveWishlist(wishlistSets)
         }
     }
 }

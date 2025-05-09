@@ -70,7 +70,7 @@ class DataController {
         return []
     }
     
-    private static func saveWishlist(_ sets: [LegoSetModel]) {
+    static func saveWishlist(_ sets: [LegoSetModel]) {
         if let encoded = try? JSONEncoder().encode(sets) {
             UserDefaults.standard.set(encoded, forKey: wishlistKey)
         }
