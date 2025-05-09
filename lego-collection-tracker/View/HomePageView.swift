@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomePageView: View {
     @State private var isLoaded = false
+    @State private var wishlistCount = 0
     
     var body: some View {
         NavigationView {
@@ -149,7 +150,7 @@ struct HomePageView: View {
                                             .foregroundColor(.gray)
                                         Text("0")
                                             .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(Color.primaryBlue)
+                                            .foregroundColor(.gray.opacity(0.8))
                                     }
                                     
                                     VStack(alignment: .leading, spacing: 2) {
@@ -158,7 +159,7 @@ struct HomePageView: View {
                                             .foregroundColor(.gray)
                                         Text("0")
                                             .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(Color.primaryRed)
+                                            .foregroundColor(.gray.opacity(0.8))
                                     }
                                 }
                             }
@@ -185,7 +186,7 @@ struct HomePageView: View {
                                     
                                     Spacer()
                                     
-                                Text("0")
+                                    Text("\(wishlistCount)")
                                         .font(.system(size: 24, weight: .bold))
                                         .foregroundColor(.primary)
                                 }
@@ -201,7 +202,7 @@ struct HomePageView: View {
                                         .foregroundColor(.gray)
                                     Text("None")
                                         .font(.system(size: 14, weight: .bold))
-                                        .foregroundColor(Color.primaryBlue)
+                                        .foregroundColor(.gray.opacity(0.8))
                                 }
                             }
                             .padding(16)
@@ -221,6 +222,7 @@ struct HomePageView: View {
             .navigationBarHidden(true)
             .onAppear {
                 isLoaded = false
+                wishlistCount = DataController.loadWishlist().count
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                     isLoaded = true
                 }
