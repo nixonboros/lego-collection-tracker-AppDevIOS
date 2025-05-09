@@ -3,7 +3,8 @@ import SwiftUI
 struct SetDetailPageView: View {
     let set: LegoSetModel
     @State private var showingActionSheet = false
-
+    @State private var isLoaded = false
+    
     var body: some View {
         ZStack {
             // Linear gradient
@@ -25,6 +26,8 @@ struct SetDetailPageView: View {
                         .multilineTextAlignment(.center)
                         .padding(.top, 20)
                         .padding(.horizontal, 20)
+                        .offset(y: isLoaded ? 0 : 20)
+                        .opacity(isLoaded ? 1 : 0)
 
                     // Set Image
                     AsyncImage(url: URL(string: set.img_url)) { image in
@@ -38,6 +41,8 @@ struct SetDetailPageView: View {
                             .frame(width: 250, height: 250)
                     }
                     .frame(width: 250, height: 250)
+                    .scaleEffect(isLoaded ? 1 : 0.8)
+                    .opacity(isLoaded ? 1 : 0)
 
                     // Set Details Card
                     VStack(alignment: .leading, spacing: 16) {
@@ -54,9 +59,12 @@ struct SetDetailPageView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.primary)
                         }
+                        .offset(x: isLoaded ? 0 : -20)
+                        .opacity(isLoaded ? 1 : 0)
 
                         Divider()
                             .background(Color.gray.opacity(0.2))
+                            .opacity(isLoaded ? 1 : 0)
 
                         // Year
                         HStack {
@@ -71,9 +79,12 @@ struct SetDetailPageView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.primary)
                         }
+                        .offset(x: isLoaded ? 0 : -20)
+                        .opacity(isLoaded ? 1 : 0)
 
                         Divider()
                             .background(Color.gray.opacity(0.2))
+                            .opacity(isLoaded ? 1 : 0)
 
                         // Number of Parts
                         HStack {
@@ -88,6 +99,8 @@ struct SetDetailPageView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.primary)
                         }
+                        .offset(x: isLoaded ? 0 : -20)
+                        .opacity(isLoaded ? 1 : 0)
                     }
                     .padding(20)
                     .background(
@@ -96,6 +109,8 @@ struct SetDetailPageView: View {
                             .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
                     )
                     .padding(.horizontal)
+                    .offset(y: isLoaded ? 0 : 20)
+                    .opacity(isLoaded ? 1 : 0)
 
                     // Add to Button
                     Button(action: {
@@ -124,6 +139,8 @@ struct SetDetailPageView: View {
                         .shadow(color: Color(red: 0.2, green: 0.5, blue: 0.9).opacity(0.3), radius: 8, x: 0, y: 4)
                     }
                     .padding(.horizontal)
+                    .offset(y: isLoaded ? 0 : 20)
+                    .opacity(isLoaded ? 1 : 0)
                     .actionSheet(isPresented: $showingActionSheet) {
                         ActionSheet(
                             title: Text("Add to"),
@@ -141,6 +158,15 @@ struct SetDetailPageView: View {
                 }
                 .padding(.bottom, 30)
             }
+        }
+        .onAppear {
+            isLoaded = false
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.1)) {
+                isLoaded = true
+            }
+        }
+        .onDisappear {
+            isLoaded = false
         }
     }
 }
