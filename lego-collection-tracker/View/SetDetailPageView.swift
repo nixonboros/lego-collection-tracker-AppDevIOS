@@ -144,7 +144,7 @@ struct SetDetailPageView: View {
                     .opacity(isLoaded ? 1 : 0)
                     .actionSheet(isPresented: $showingActionSheet) {
                         ActionSheet(
-                            title: Text("Add to"),
+                            title: Text("Options"),
                             buttons: [
                                 .default(Text("Add to Collection")) {
                                     // Add to Collection logic
