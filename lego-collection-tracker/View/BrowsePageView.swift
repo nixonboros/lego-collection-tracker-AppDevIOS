@@ -4,6 +4,11 @@ struct BrowsePageView: View {
     @State private var sets: [LegoSetModel] = []
     @State private var searchText = ""
     @State private var sortOptions = SortOptions(criteria: .name, isAscending: true)
+    
+    // Saved colours
+    private let colourRed = Color(red: 0.91, green: 0.12, blue: 0.12)
+    private let colourYellow = Color(red: 1.0, green: 0.85, blue: 0.0)
+    private let colourBlue = Color(red: 0.0, green: 0.47, blue: 0.9)
 
     var filteredAndSortedSets: [LegoSetModel] {
         SortController.filterAndSort(sets: sets, searchText: searchText, options: sortOptions)
@@ -16,7 +21,8 @@ struct BrowsePageView: View {
                 LinearGradient(
                     gradient: Gradient(colors: [
                         Color(.systemBackground),
-                        Color(.systemGray6).opacity(0.4)
+                        colourRed.opacity(0.05),
+                        colourBlue.opacity(0.05)
                     ]),
                     startPoint: .top,
                     endPoint: .bottom
@@ -29,7 +35,7 @@ struct BrowsePageView: View {
                         // Search field
                         HStack {
                             Image(systemName: "magnifyingglass")
-                                .foregroundColor(Color(red: 0.2, green: 0.5, blue: 0.9))
+                                .foregroundColor(colourBlue)
                                 .frame(width: 24)
                             TextField("Search sets...", text: $searchText)
                                 .font(.system(size: 16, weight: .regular))
@@ -62,7 +68,7 @@ struct BrowsePageView: View {
                             } label: {
                                 HStack {
                                     Image(systemName: "arrow.up.arrow.down")
-                                        .foregroundColor(Color(red: 0.2, green: 0.5, blue: 0.9))
+                                        .foregroundColor(colourBlue)
                                         .frame(width: 24)
                                     Text("Sort by \(sortOptions.criteria.rawValue)")
                                         .font(.system(size: 16, weight: .medium))
@@ -76,7 +82,7 @@ struct BrowsePageView: View {
                                 .background(
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color(.systemBackground))
-                                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+                                        .shadow(color: colourBlue.opacity(0.1), radius: 10, x: 0, y: 5)
                                 )
                             }
                             
@@ -84,7 +90,7 @@ struct BrowsePageView: View {
                             Button(action: { sortOptions.isAscending.toggle() }) {
                                 HStack(spacing: 8) {
                                     Image(systemName: SortController.getSortDirectionIcon(for: sortOptions))
-                                        .foregroundColor(Color(red: 0.2, green: 0.5, blue: 0.9))
+                                        .foregroundColor(colourBlue)
                                         .frame(width: 24)
                                     Text(SortController.getSortDirectionLabel(for: sortOptions))
                                         .font(.system(size: 16, weight: .medium))
@@ -106,7 +112,7 @@ struct BrowsePageView: View {
                         VStack(spacing: 20) {
                             Image(systemName: "magnifyingglass")
                                 .font(.system(size: 48))
-                                .foregroundColor(Color(red: 0.2, green: 0.5, blue: 0.9).opacity(0.5))
+                                .foregroundColor(colourBlue.opacity(0.5))
                             Text("No sets found")
                                 .font(.system(size: 24, weight: .light))
                                 .foregroundColor(.primary)
@@ -162,10 +168,10 @@ struct BrowsePageView: View {
                     }
                 }
                 .navigationTitle("Browse Sets")
-                .onAppear {
-                    sets = DataController.loadSets()
-                }
             }
+        }
+        .onAppear {
+            sets = DataController.loadSets()
         }
     }
 }
