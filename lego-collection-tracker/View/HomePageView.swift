@@ -92,7 +92,7 @@ struct HomePageView: View {
                                 .opacity(isLoaded ? 1 : 0)
                         }
                         .padding(.top, 10)
-                        
+
                         // Title and Description
                         VStack(spacing: 8) {
                             Text("LEGO")
