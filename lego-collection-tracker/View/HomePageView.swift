@@ -3,25 +3,20 @@ import SwiftUI
 struct HomePageView: View {
     @State private var isLoaded = false
     
-    // Saved colours
-    private let colourRed = Color(red: 0.91, green: 0.12, blue: 0.12)
-    private let colourYellow = Color(red: 1.0, green: 0.85, blue: 0.0)
-    private let colourBlue = Color(red: 0.0, green: 0.47, blue: 0.9)
-    
     var body: some View {
         NavigationView {
             ZStack {
                 ZStack {
                     // Linear gradient
-                    LinearGradient(
+                LinearGradient(
                         gradient: Gradient(colors: [
                             Color(.systemBackground),
-                            colourRed.opacity(0.05),
-                            colourBlue.opacity(0.05)
+                            Color.primaryRed.opacity(0.05),
+                            Color.primaryBlue.opacity(0.05)
                         ]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
                     
                     // Decorative background elements
                     VStack {
@@ -29,12 +24,12 @@ struct HomePageView: View {
                             // Top left decorative elements
                             ZStack {
                                 Circle()
-                                    .fill(colourRed.opacity(0.08))
+                                    .fill(Color.primaryRed.opacity(0.08))
                                     .frame(width: 180, height: 180)
                                     .offset(x: -80, y: -40)
                                 
                                 Circle()
-                                    .fill(colourBlue.opacity(0.06))
+                                    .fill(Color.primaryBlue.opacity(0.06))
                                     .frame(width: 120, height: 120)
                                     .offset(x: -40, y: -20)
                             }
@@ -48,12 +43,12 @@ struct HomePageView: View {
                             // Bottom right decorative elements
                             ZStack {
                                 Circle()
-                                    .fill(colourBlue.opacity(0.08))
+                                    .fill(Color.primaryBlue.opacity(0.08))
                                     .frame(width: 220, height: 220)
                                     .offset(x: 80, y: 80)
                                 
                                 Circle()
-                                    .fill(colourYellow.opacity(0.06))
+                                    .fill(Color.primaryYellow.opacity(0.06))
                                     .frame(width: 140, height: 140)
                                     .offset(x: 40, y: 40)
                             }
@@ -69,31 +64,31 @@ struct HomePageView: View {
                         ZStack {
                             // Decorative circles on Logo
                             Circle()
-                                .fill(colourRed.opacity(0.1))
+                                .fill(Color.primaryRed.opacity(0.1))
                                 .frame(width: 110, height: 110)
                                 .scaleEffect(isLoaded ? 1 : 0.8)
                                 .opacity(isLoaded ? 1 : 0)
                             
                             Circle()
-                                .fill(colourBlue.opacity(0.1))
+                                .fill(Color.primaryBlue.opacity(0.1))
                                 .frame(width: 85, height: 85)
                                 .offset(x: 12, y: -8)
                                 .scaleEffect(isLoaded ? 1 : 0.8)
                                 .opacity(isLoaded ? 1 : 0)
                             
                             // Logo
-                            Image(systemName: "cube.box.fill")
-                                .resizable()
-                                .scaledToFit()
+                    Image(systemName: "cube.box.fill")
+                        .resizable()
+                        .scaledToFit()
                                 .frame(width: 45, height: 45)
                                 .foregroundStyle(
                                     LinearGradient(
-                                        colors: [colourRed, colourYellow],
+                                        colors: [Color.primaryRed, Color.primaryYellow],
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                                .shadow(color: colourRed.opacity(0.3), radius: 8, x: 0, y: 4)
+                                .shadow(color: Color.primaryRed.opacity(0.3), radius: 8, x: 0, y: 4)
                                 .scaleEffect(isLoaded ? 1 : 0.5)
                                 .opacity(isLoaded ? 1 : 0)
                         }
@@ -105,7 +100,7 @@ struct HomePageView: View {
                                 .font(.system(size: 32, weight: .bold))
                                 .foregroundStyle(
                                     LinearGradient(
-                                        colors: [colourRed, colourBlue],
+                                        colors: [Color.primaryRed, Color.primaryBlue],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     )
@@ -141,11 +136,11 @@ struct HomePageView: View {
                                 HStack {
                                     Image(systemName: "cube.box.fill")
                                         .font(.system(size: 20))
-                                        .foregroundColor(colourBlue)
+                                        .foregroundColor(Color.primaryBlue)
                                         .frame(width: 32, height: 32)
                                         .background(
                                             Circle()
-                                                .fill(colourBlue.opacity(0.15))
+                                                .fill(Color.primaryBlue.opacity(0.15))
                                         )
                                     
                                     Spacer()
@@ -167,7 +162,7 @@ struct HomePageView: View {
                                             .foregroundColor(.gray)
                                         Text("0")
                                             .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(colourBlue)
+                                            .foregroundColor(Color.primaryBlue)
                                     }
                                     
                                     VStack(alignment: .leading, spacing: 2) {
@@ -176,7 +171,7 @@ struct HomePageView: View {
                                             .foregroundColor(.gray)
                                         Text("0")
                                             .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(colourRed)
+                                            .foregroundColor(Color.primaryRed)
                                     }
                                 }
                             }
@@ -184,7 +179,7 @@ struct HomePageView: View {
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(Color(.systemBackground))
-                                    .shadow(color: colourBlue.opacity(0.1), radius: 10, x: 0, y: 3)
+                                    .shadow(color: Color.primaryBlue.opacity(0.1), radius: 10, x: 0, y: 3)
                             )
                             .offset(y: isLoaded ? 0 : 30)
                             .opacity(isLoaded ? 1 : 0)
@@ -194,16 +189,16 @@ struct HomePageView: View {
                                 HStack {
                                     Image(systemName: "heart.fill")
                                         .font(.system(size: 20))
-                                        .foregroundColor(colourRed)
+                                        .foregroundColor(Color.primaryRed)
                                         .frame(width: 32, height: 32)
                                         .background(
                                             Circle()
-                                                .fill(colourRed.opacity(0.15))
+                                                .fill(Color.primaryRed.opacity(0.15))
                                         )
                                     
                                     Spacer()
                                     
-                                    Text("0")
+                                Text("0")
                                         .font(.system(size: 24, weight: .bold))
                                         .foregroundColor(.primary)
                                 }
@@ -219,14 +214,14 @@ struct HomePageView: View {
                                         .foregroundColor(.gray)
                                     Text("None")
                                         .font(.system(size: 14, weight: .bold))
-                                        .foregroundColor(colourBlue)
+                                        .foregroundColor(Color.primaryBlue)
                                 }
                             }
                             .padding(16)
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(Color(.systemBackground))
-                                    .shadow(color: colourRed.opacity(0.1), radius: 10, x: 0, y: 3)
+                                    .shadow(color: Color.primaryRed.opacity(0.1), radius: 10, x: 0, y: 3)
                             )
                             .offset(y: isLoaded ? 0 : 30)
                             .opacity(isLoaded ? 1 : 0)

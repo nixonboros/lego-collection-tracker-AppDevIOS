@@ -6,19 +6,14 @@ struct SetDetailPageView: View {
     @State private var isLoaded = false
     @State private var isInWishlist = false
     
-    // Saved colours
-    private let colourRed = Color(red: 0.91, green: 0.12, blue: 0.12)
-    private let colourYellow = Color(red: 1.0, green: 0.85, blue: 0.0)
-    private let colourBlue = Color(red: 0.0, green: 0.47, blue: 0.9)
-    
     var body: some View {
         ZStack {
             // Linear gradient
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(.systemBackground),
-                    colourRed.opacity(0.05),
-                    colourBlue.opacity(0.05)
+                    Color.primaryRed.opacity(0.05),
+                    Color.primaryBlue.opacity(0.05)
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
@@ -56,7 +51,7 @@ struct SetDetailPageView: View {
                         // Set Number
                         HStack {
                             Image(systemName: "number")
-                                .foregroundColor(colourBlue)
+                                .foregroundColor(Color.primaryBlue)
                                 .frame(width: 24)
                             Text("Set Number")
                                 .font(.system(size: 16, weight: .medium))
@@ -76,7 +71,7 @@ struct SetDetailPageView: View {
                         // Year
                         HStack {
                             Image(systemName: "calendar")
-                                .foregroundColor(colourBlue)
+                                .foregroundColor(Color.primaryBlue)
                                 .frame(width: 24)
                             Text("Year")
                                 .font(.system(size: 16, weight: .medium))
@@ -96,7 +91,7 @@ struct SetDetailPageView: View {
                         // Number of Parts
                         HStack {
                             Image(systemName: "cube.box.fill")
-                                .foregroundColor(colourBlue)
+                                .foregroundColor(Color.primaryBlue)
                                 .frame(width: 24)
                             Text("Number of Parts")
                                 .font(.system(size: 16, weight: .medium))
@@ -113,7 +108,7 @@ struct SetDetailPageView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .fill(Color(.systemBackground))
-                            .shadow(color: colourBlue.opacity(0.1), radius: 10, x: 0, y: 5)
+                            .shadow(color: Color.primaryBlue.opacity(0.1), radius: 10, x: 0, y: 5)
                     )
                     .padding(.horizontal)
                     .offset(y: isLoaded ? 0 : 20)
@@ -134,8 +129,8 @@ struct SetDetailPageView: View {
                         .background(
                             LinearGradient(
                                 gradient: Gradient(colors: [
-                                    isInWishlist ? colourRed : colourBlue,
-                                    isInWishlist ? colourRed.opacity(0.8) : colourBlue.opacity(0.8)
+                                    isInWishlist ? Color.primaryRed : Color.primaryBlue,
+                                    isInWishlist ? Color.primaryRed.opacity(0.8) : Color.primaryBlue.opacity(0.8)
                                 ]),
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -143,7 +138,7 @@ struct SetDetailPageView: View {
                         )
                         .foregroundColor(.white)
                         .cornerRadius(16)
-                        .shadow(color: (isInWishlist ? colourRed : colourBlue).opacity(0.3), radius: 8, x: 0, y: 4)
+                        .shadow(color: (isInWishlist ? Color.primaryRed : Color.primaryBlue).opacity(0.3), radius: 8, x: 0, y: 4)
                     }
                     .padding(.horizontal)
                     .offset(y: isLoaded ? 0 : 20)

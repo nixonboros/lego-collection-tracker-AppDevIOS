@@ -4,11 +4,6 @@ struct WishlistPageView: View {
     @State private var wishlistSets: [LegoSetModel] = []
     @State private var searchText = ""
     
-    // Saved colours
-    private let colourRed = Color(red: 0.91, green: 0.12, blue: 0.12)
-    private let colourYellow = Color(red: 1.0, green: 0.85, blue: 0.0)
-    private let colourBlue = Color(red: 0.0, green: 0.47, blue: 0.9)
-    
     var filteredSets: [LegoSetModel] {
         if searchText.isEmpty {
             return wishlistSets
@@ -26,8 +21,8 @@ struct WishlistPageView: View {
                 LinearGradient(
                     gradient: Gradient(colors: [
                         Color(.systemBackground),
-                        colourRed.opacity(0.05),
-                        colourBlue.opacity(0.05)
+                        Color.primaryRed.opacity(0.05),
+                        Color.primaryBlue.opacity(0.05)
                     ]),
                     startPoint: .top,
                     endPoint: .bottom
@@ -38,7 +33,7 @@ struct WishlistPageView: View {
                     // Search Control
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(colourBlue)
+                            .foregroundColor(Color.primaryBlue)
                             .frame(width: 24)
                         TextField("Search wishlist...", text: $searchText)
                             .font(.system(size: 16, weight: .regular))
@@ -49,7 +44,7 @@ struct WishlistPageView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .fill(Color(.systemBackground))
-                            .shadow(color: colourBlue.opacity(0.1), radius: 10, x: 0, y: 5)
+                            .shadow(color: Color.primaryBlue.opacity(0.1), radius: 10, x: 0, y: 5)
                     )
                     .padding(20)
                     
@@ -59,11 +54,11 @@ struct WishlistPageView: View {
                             // Decorative circles
                             ZStack {
                                 Circle()
-                                    .fill(colourRed.opacity(0.1))
+                                    .fill(Color.primaryRed.opacity(0.1))
                                     .frame(width: 130, height: 130)
                                 
                                 Circle()
-                                    .fill(colourRed.opacity(0.1))
+                                    .fill(Color.primaryRed.opacity(0.1))
                                     .frame(width: 100, height: 100)
                                     .offset(x: 15, y: -10)
                                 
@@ -73,12 +68,12 @@ struct WishlistPageView: View {
                                     .frame(width: 55, height: 55)
                                     .foregroundStyle(
                                         LinearGradient(
-                                            colors: [colourRed, colourRed.opacity(0.8)],
+                                            colors: [Color.primaryRed, Color.primaryRed.opacity(0.8)],
                                             startPoint: .topLeading,
                                             endPoint: .bottomTrailing
                                         )
                                     )
-                                    .shadow(color: colourRed.opacity(0.3), radius: 8, x: 0, y: 4)
+                                    .shadow(color: Color.primaryRed.opacity(0.3), radius: 8, x: 0, y: 4)
                             }
                             
                             VStack(spacing: 8) {
@@ -110,7 +105,7 @@ struct WishlistPageView: View {
                                         }
                                         .frame(width: 80, height: 80)
                                         .cornerRadius(20)
-                                        .shadow(color: colourRed.opacity(0.1), radius: 10, x: 0, y: 5)
+                                        .shadow(color: Color.primaryRed.opacity(0.1), radius: 10, x: 0, y: 5)
                                         
                                         // Set Details
                                         VStack(alignment: .leading, spacing: 8) {

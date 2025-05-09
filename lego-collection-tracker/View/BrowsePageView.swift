@@ -5,11 +5,6 @@ struct BrowsePageView: View {
     @State private var searchText = ""
     @State private var sortOptions = SortOptions(criteria: .name, isAscending: true)
     
-    // Saved colours
-    private let colourRed = Color(red: 0.91, green: 0.12, blue: 0.12)
-    private let colourYellow = Color(red: 1.0, green: 0.85, blue: 0.0)
-    private let colourBlue = Color(red: 0.0, green: 0.47, blue: 0.9)
-
     var filteredAndSortedSets: [LegoSetModel] {
         SortController.filterAndSort(sets: sets, searchText: searchText, options: sortOptions)
     }
@@ -21,8 +16,8 @@ struct BrowsePageView: View {
                 LinearGradient(
                     gradient: Gradient(colors: [
                         Color(.systemBackground),
-                        colourRed.opacity(0.05),
-                        colourBlue.opacity(0.05)
+                        Color.primaryRed.opacity(0.05),
+                        Color.primaryBlue.opacity(0.05)
                     ]),
                     startPoint: .top,
                     endPoint: .bottom
@@ -35,7 +30,7 @@ struct BrowsePageView: View {
                         // Search field
                         HStack {
                             Image(systemName: "magnifyingglass")
-                                .foregroundColor(colourBlue)
+                                .foregroundColor(Color.primaryBlue)
                                 .frame(width: 24)
                             TextField("Search sets...", text: $searchText)
                                 .font(.system(size: 16, weight: .regular))
@@ -68,7 +63,7 @@ struct BrowsePageView: View {
                             } label: {
                                 HStack {
                                     Image(systemName: "arrow.up.arrow.down")
-                                        .foregroundColor(colourBlue)
+                                        .foregroundColor(Color.primaryBlue)
                                         .frame(width: 24)
                                     Text("Sort by \(sortOptions.criteria.rawValue)")
                                         .font(.system(size: 16, weight: .medium))
@@ -82,7 +77,7 @@ struct BrowsePageView: View {
                                 .background(
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color(.systemBackground))
-                                        .shadow(color: colourBlue.opacity(0.1), radius: 10, x: 0, y: 5)
+                                        .shadow(color: Color.primaryBlue.opacity(0.1), radius: 10, x: 0, y: 5)
                                 )
                             }
                             
@@ -90,7 +85,7 @@ struct BrowsePageView: View {
                             Button(action: { sortOptions.isAscending.toggle() }) {
                                 HStack(spacing: 8) {
                                     Image(systemName: SortController.getSortDirectionIcon(for: sortOptions))
-                                        .foregroundColor(colourBlue)
+                                        .foregroundColor(Color.primaryBlue)
                                         .frame(width: 24)
                                     Text(SortController.getSortDirectionLabel(for: sortOptions))
                                         .font(.system(size: 16, weight: .medium))
@@ -112,7 +107,7 @@ struct BrowsePageView: View {
                         VStack(spacing: 20) {
                             Image(systemName: "magnifyingglass")
                                 .font(.system(size: 48))
-                                .foregroundColor(colourBlue.opacity(0.5))
+                                .foregroundColor(Color.primaryBlue.opacity(0.5))
                             Text("No sets found")
                                 .font(.system(size: 24, weight: .light))
                                 .foregroundColor(.primary)
