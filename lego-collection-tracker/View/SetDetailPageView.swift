@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SetDetailPageView: View {
-    let set: LegoSet
+    let set: LegoSetModel
 
     @State private var showingActionSheet = false
 

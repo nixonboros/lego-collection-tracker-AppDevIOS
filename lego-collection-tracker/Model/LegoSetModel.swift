@@ -1,6 +1,6 @@
 import Foundation
 
-struct LegoSet: Identifiable {
+struct LegoSetModel: Identifiable {
     let id = UUID()
     let set_num: String
     let name: String

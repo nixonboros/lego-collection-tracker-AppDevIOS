@@ -1,76 +1,12 @@
 import SwiftUI
 
 struct BrowsePageView: View {
-    @State private var sets: [LegoSet] = []
+    @State private var sets: [LegoSetModel] = []
     @State private var searchText = ""
     @State private var sortOptions = SortOptions(criteria: .name, isAscending: true)
 
-    enum SortCriteria: String, CaseIterable, Identifiable {
-        case name = "Name"
-        case setNumber = "Set Number"
-        case year = "Year"
-        case parts = "Parts"
-        var id: String { self.rawValue }
-    }
-
-    struct SortOptions {
-        var criteria: SortCriteria
-        var isAscending: Bool
-    }
-
-    // Helper function to get appropriate sort direction label
-    private func getSortDirectionLabel() -> String {
-        switch sortOptions.criteria {
-        case .name, .setNumber:
-            return sortOptions.isAscending ? "A-Z" : "Z-A"
-        case .year:
-            return sortOptions.isAscending ? "Oldest" : "Newest"
-        case .parts:
-            return sortOptions.isAscending ? "Fewest" : "Most"
-        }
-    }
-
-    // Helper function to get appropriate sort direction icon
-    private func getSortDirectionIcon() -> String {
-        switch sortOptions.criteria {
-        case .name, .setNumber:
-            return sortOptions.isAscending ? "arrow.up" : "arrow.down"
-        case .year:
-            return sortOptions.isAscending ? "calendar.badge.clock" : "calendar.badge.plus"
-        case .parts:
-            return sortOptions.isAscending ? "minus.circle" : "plus.circle"
-        }
-    }
-
-    var filteredAndSortedSets: [LegoSet] {
-        let filtered = sets.filter { set in
-            guard !searchText.isEmpty else { return true }
-            switch sortOptions.criteria {
-            case .name:
-                return set.name.localizedCaseInsensitiveContains(searchText)
-            case .setNumber:
-                return set.set_num.localizedCaseInsensitiveContains(searchText)
-            case .year:
-                return String(set.year).contains(searchText)
-            case .parts:
-                return String(set.num_parts).contains(searchText)
-            }
-        }
-        
-        return filtered.sorted { first, second in
-            let comparison: ComparisonResult
-            switch sortOptions.criteria {
-            case .name:
-                comparison = first.name.localizedCaseInsensitiveCompare(second.name)
-            case .setNumber:
-                comparison = first.set_num.localizedCaseInsensitiveCompare(second.set_num)
-            case .year:
-                comparison = first.year < second.year ? .orderedAscending : .orderedDescending
-            case .parts:
-                comparison = first.num_parts < second.num_parts ? .orderedAscending : .orderedDescending
-            }
-            return sortOptions.isAscending ? comparison == .orderedAscending : comparison == .orderedDescending
-        }
+    var filteredAndSortedSets: [LegoSetModel] {
+        SortController.filterAndSort(sets: sets, searchText: searchText, options: sortOptions)
     }
 
     var body: some View {
@@ -131,9 +67,9 @@ struct BrowsePageView: View {
                             // Sort direction button
                             Button(action: { sortOptions.isAscending.toggle() }) {
                                 HStack(spacing: 4) {
-                                    Image(systemName: getSortDirectionIcon())
+                                    Image(systemName: SortController.getSortDirectionIcon(for: sortOptions))
                                         .font(.system(size: 14, weight: .semibold))
-                                    Text(getSortDirectionLabel())
+                                    Text(SortController.getSortDirectionLabel(for: sortOptions))
                                         .font(.subheadline)
                                 }
                                 .padding(.horizontal, 12)
@@ -206,7 +142,7 @@ struct BrowsePageView: View {
                 }
                 .navigationTitle("Browse Sets")
                 .onAppear {
-                    sets = SetController.loadSets()
+                    sets = DataController.loadSets()
                 }
             }
         }

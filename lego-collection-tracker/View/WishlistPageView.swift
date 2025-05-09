@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct WishlistPageView: View {
-    @State private var wishlistSets: [LegoSet] = [] // Replace with actual data loading later
+    @State private var wishlistSets: [LegoSetModel] = [] // Replace with actual data loading later
 
     var body: some View {
         NavigationView {

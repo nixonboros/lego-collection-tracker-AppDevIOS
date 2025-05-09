@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CollectionPageView: View {
-    @State private var collectionSets: [LegoSet] = [] // Replace with actual data loading later
+    @State private var collectionSets: [LegoSetModel] = [] // Replace with actual data loading later
 
     var body: some View {
         NavigationView {
