@@ -80,7 +80,7 @@ struct CollectionPageView: View {
                         }
                         Spacer()
                     } else {
-                        // add collection lego data logic
+                        // Add collection lego data logic
                     }
                 }
                 .navigationTitle("Collection")

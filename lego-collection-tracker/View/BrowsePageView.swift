@@ -187,6 +187,10 @@ struct BrowsePageView: View {
                             }
                         }
                         .listStyle(PlainListStyle())
+                        // Tab bar at bottom for tabview icons
+                        .safeAreaInset(edge: .bottom) {
+                            Color.clear.frame(height: 49)
+                        }
                     }
                 }
                 .navigationTitle("Browse Sets")
