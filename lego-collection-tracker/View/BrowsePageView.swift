@@ -12,8 +12,16 @@ struct BrowsePageView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(.systemGroupedBackground)
-                    .ignoresSafeArea()
+                // Background with gradient
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(.systemBackground),
+                        Color(.systemGray6).opacity(0.4)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
 
                 VStack(spacing: 0) {
                     // Search and Sort Controls
@@ -22,14 +30,14 @@ struct BrowsePageView: View {
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.gray)
-                            TextField("Search...", text: $searchText)
+                            TextField("Search sets...", text: $searchText)
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
                         }
                         .padding(12)
                         .background(Color(.systemBackground))
-                        .cornerRadius(12)
-                        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
+                        .cornerRadius(16)
+                        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
                         
                         // Sort controls
                         HStack(spacing: 8) {
@@ -50,9 +58,9 @@ struct BrowsePageView: View {
                             } label: {
                                 HStack {
                                     Image(systemName: "arrow.up.arrow.down")
-                                        .font(.system(size: 14, weight: .semibold))
+                                        .font(.system(size: 14, weight: .medium))
                                     Text("Sort by \(sortOptions.criteria.rawValue)")
-                                        .font(.subheadline)
+                                        .font(.system(size: 14, weight: .medium))
                                     Spacer()
                                     Image(systemName: "chevron.up.chevron.down")
                                         .font(.system(size: 12))
@@ -60,42 +68,41 @@ struct BrowsePageView: View {
                                 }
                                 .padding(12)
                                 .background(Color(.systemBackground))
-                                .cornerRadius(12)
-                                .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
+                                .cornerRadius(16)
+                                .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
                             }
                             
                             // Sort direction button
                             Button(action: { sortOptions.isAscending.toggle() }) {
                                 HStack(spacing: 4) {
                                     Image(systemName: SortController.getSortDirectionIcon(for: sortOptions))
-                                        .font(.system(size: 14, weight: .semibold))
+                                        .font(.system(size: 14, weight: .medium))
                                     Text(SortController.getSortDirectionLabel(for: sortOptions))
-                                        .font(.subheadline)
+                                        .font(.system(size: 14, weight: .medium))
                                 }
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 12)
                                 .background(Color(.systemBackground))
-                                .cornerRadius(12)
-                                .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
+                                .cornerRadius(16)
+                                .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
                             }
                         }
                     }
                     .padding(16)
-                    .background(Color(.systemGroupedBackground))
 
                     // Results List
                     if filteredAndSortedSets.isEmpty {
                         VStack(spacing: 16) {
                             Image(systemName: "magnifyingglass")
                                 .font(.system(size: 48))
-                                .foregroundColor(.gray)
+                                .foregroundColor(.gray.opacity(0.5))
                             Text("No sets found")
-                                .font(.headline)
-                                .foregroundColor(.secondary)
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.gray)
                             if !searchText.isEmpty {
                                 Text("Try adjusting your search")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
+                                    .font(.system(size: 14, weight: .regular))
+                                    .foregroundColor(.gray.opacity(0.8))
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -111,29 +118,31 @@ struct BrowsePageView: View {
                                                 .resizable()
                                                 .scaledToFill()
                                         } placeholder: {
-                                            Color.gray.opacity(0.2)
+                                            Color.gray.opacity(0.1)
                                         }
-                                        .frame(width: 60, height: 60)
-                                        .cornerRadius(8)
+                                        .frame(width: 70, height: 70)
+                                        .cornerRadius(12)
+                                        .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 2)
                                         
                                         // Set Details
-                                        VStack(alignment: .leading, spacing: 4) {
+                                        VStack(alignment: .leading, spacing: 6) {
                                             Text(set.name)
-                                                .font(.headline)
+                                                .font(.system(size: 16, weight: .medium))
                                                 .lineLimit(2)
+                                                .foregroundColor(.primary)
                                             
                                             HStack(spacing: 12) {
                                                 Label(set.set_num, systemImage: "number")
-                                                    .font(.caption)
-                                                    .foregroundColor(.secondary)
+                                                    .font(.system(size: 13, weight: .regular))
+                                                    .foregroundColor(.gray)
                                                 
                                                 Label("\(set.year)", systemImage: "calendar")
-                                                    .font(.caption)
-                                                    .foregroundColor(.secondary)
+                                                    .font(.system(size: 13, weight: .regular))
+                                                    .foregroundColor(.gray)
                                             }
                                         }
                                     }
-                                    .padding(.vertical, 4)
+                                    .padding(.vertical, 8)
                                 }
                             }
                         }
