@@ -105,16 +105,43 @@ struct BrowsePageView: View {
                     // Results List
                     if filteredAndSortedSets.isEmpty {
                         VStack(spacing: 20) {
-                            Image(systemName: "magnifyingglass")
-                                .font(.system(size: 48))
-                                .foregroundColor(Color.primaryBlue.opacity(0.5))
-                            Text("No sets found")
-                                .font(.system(size: 24, weight: .light))
-                                .foregroundColor(.primary)
-                            if !searchText.isEmpty {
-                                Text("Try adjusting your search")
-                                    .font(.system(size: 16, weight: .regular))
-                                    .foregroundColor(.gray)
+                            // Decorative circles
+                            ZStack {
+                                Circle()
+                                    .fill(Color.gray.opacity(0.1))
+                                    .frame(width: 120, height: 120)
+                                
+                                Circle()
+                                    .fill(Color.gray.opacity(0.1))
+                                    .frame(width: 90, height: 90)
+                                    .offset(x: 15, y: -10)
+                                
+                                Image(systemName: "magnifyingglass")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 40, height: 40)
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            colors: [Color.gray, Color.gray.opacity(0.8)],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .shadow(color: Color.gray.opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
+                            
+                            VStack(spacing: 8) {
+                                Text("No sets found")
+                                    .font(.system(size: 24, weight: .light))
+                                    .foregroundColor(.primary)
+                                
+                                if !searchText.isEmpty {
+                                    Text("Try adjusting your search")
+                                        .font(.system(size: 16, weight: .regular))
+                                        .foregroundColor(.gray.opacity(0.8))
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal, 40)
+                                }
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)

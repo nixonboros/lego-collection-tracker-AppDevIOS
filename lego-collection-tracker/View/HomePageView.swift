@@ -64,15 +64,15 @@ struct HomePageView: View {
                         ZStack {
                             // Decorative circles on Logo
                             Circle()
-                                .fill(Color.primaryRed.opacity(0.1))
-                                .frame(width: 110, height: 110)
+                                .fill(Color.primaryRed.opacity(0.15))
+                                .frame(width: 140, height: 140)
                                 .scaleEffect(isLoaded ? 1 : 0.8)
                                 .opacity(isLoaded ? 1 : 0)
                             
                             Circle()
-                                .fill(Color.primaryBlue.opacity(0.1))
-                                .frame(width: 85, height: 85)
-                                .offset(x: 12, y: -8)
+                                .fill(Color.primaryRed.opacity(0.1))
+                                .frame(width: 110, height: 110)
+                                .offset(x: 15, y: -10)
                                 .scaleEffect(isLoaded ? 1 : 0.8)
                                 .opacity(isLoaded ? 1 : 0)
                             
@@ -80,9 +80,8 @@ struct HomePageView: View {
                             Image("legoBlock")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .foregroundColor(Color.primaryRed)
-                                .shadow(color: Color.primaryRed.opacity(0.3), radius: 8, x: 0, y: 4)
+                                .frame(width: 100, height: 100)
+                                .shadow(color: Color.primaryRed.opacity(0.4), radius: 12, x: 0, y: 6)
                                 .scaleEffect(isLoaded ? 1 : 0.5)
                                 .opacity(isLoaded ? 1 : 0)
                         }
