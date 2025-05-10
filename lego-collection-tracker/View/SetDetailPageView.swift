@@ -57,7 +57,7 @@ struct SetDetailPageView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.gray)
                             Spacer()
-                            Text(set.set_num)
+                            Text(set.formattedSetNumber)
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.primary)
                         }

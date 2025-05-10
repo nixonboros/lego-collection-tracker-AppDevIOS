@@ -239,7 +239,7 @@ struct HomePageView: View {
                                                             .foregroundColor(.gray.opacity(0.8))
                                                             .lineLimit(1)
                                                         
-                                                        Text(set.set_num)
+                                                        Text(set.formattedSetNumber)
                                                             .font(.system(size: 12, weight: .medium))
                                                             .foregroundColor(.gray.opacity(0.6))
                                                     }
@@ -266,7 +266,6 @@ struct HomePageView: View {
                         .padding(.horizontal)
                     }
                 }
-                .padding(.bottom, 20)
             }
             .navigationBarHidden(true)
             .onAppear {

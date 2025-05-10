@@ -172,7 +172,7 @@ struct BrowsePageView: View {
                                                 .foregroundColor(.primary)
                                             
                                             HStack(spacing: 16) {
-                                                Label(set.set_num, systemImage: "number")
+                                                Label(set.formattedSetNumber, systemImage: "number")
                                                     .font(.system(size: 14, weight: .medium))
                                                     .foregroundColor(.gray)
                                                 
