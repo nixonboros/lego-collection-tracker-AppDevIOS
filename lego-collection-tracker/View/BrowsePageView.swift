@@ -172,13 +172,21 @@ struct BrowsePageView: View {
                                                 .foregroundColor(.primary)
                                             
                                             HStack(spacing: 16) {
-                                                Label(set.formattedSetNumber, systemImage: "number")
-                                                    .font(.system(size: 14, weight: .medium))
-                                                    .foregroundColor(.gray)
+                                                HStack(spacing: 4) {
+                                                    Image(systemName: "number")
+                                                        .font(.system(size: 14, weight: .medium))
+                                                    Text(set.formattedSetNumber)
+                                                        .font(.system(size: 14, weight: .medium))
+                                                }
+                                                .foregroundColor(.gray)
                                                 
-                                                Label("\(set.year)", systemImage: "calendar")
-                                                    .font(.system(size: 14, weight: .medium))
-                                                    .foregroundColor(.gray)
+                                                HStack(spacing: 4) {
+                                                    Image(systemName: "calendar")
+                                                        .font(.system(size: 14, weight: .medium))
+                                                    Text("\(set.year)")
+                                                        .font(.system(size: 14, weight: .medium))
+                                                }
+                                                .foregroundColor(.gray)
                                             }
                                         }
                                     }
