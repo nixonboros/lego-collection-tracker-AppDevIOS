@@ -33,7 +33,7 @@ struct HomePageView: View {
                                     .offset(x: -80, y: -40)
                                 
                                 Circle()
-                                    .fill(Color.primaryBlue.opacity(0.06))
+                                    .fill(Color.primaryRed.opacity(0.05))
                                     .frame(width: 120, height: 120)
                                     .offset(x: -40, y: -20)
                             }
@@ -47,12 +47,12 @@ struct HomePageView: View {
                             // Bottom right decorative elements
                             ZStack {
                                 Circle()
-                                    .fill(Color.primaryBlue.opacity(0.08))
+                                    .fill(Color.primaryRed.opacity(0.08))
                                     .frame(width: 220, height: 220)
                                     .offset(x: 80, y: 80)
                                 
                                 Circle()
-                                    .fill(Color.primaryYellow.opacity(0.06))
+                                    .fill(Color.primaryRed.opacity(0.05))
                                     .frame(width: 140, height: 140)
                                     .offset(x: 40, y: 40)
                             }
@@ -65,31 +65,14 @@ struct HomePageView: View {
                 VStack(spacing: 20) {
                     // Header Section
                     VStack(spacing: 15) {
-                        ZStack {
-                            // Decorative circles on Logo
-                            Circle()
-                                .fill(Color.primaryRed.opacity(0.15))
-                                .frame(width: 140, height: 140)
-                                .scaleEffect(isLoaded ? 1 : 0.8)
-                                .opacity(isLoaded ? 1 : 0)
-                            
-                            Circle()
-                                .fill(Color.primaryRed.opacity(0.1))
-                                .frame(width: 110, height: 110)
-                                .offset(x: 15, y: -10)
-                                .scaleEffect(isLoaded ? 1 : 0.8)
-                                .opacity(isLoaded ? 1 : 0)
-                            
-                            // Logo
-                            Image("legoBlock")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .shadow(color: Color.primaryRed.opacity(0.4), radius: 12, x: 0, y: 6)
-                                .scaleEffect(isLoaded ? 1 : 0.5)
-                                .opacity(isLoaded ? 1 : 0)
-                        }
-                        .padding(.top, 5)
+                        // Logo
+                        Image("legoBlock")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .shadow(color: Color.black.opacity(0.3), radius: 12, x: 0, y: 6)
+                            .scaleEffect(isLoaded ? 1 : 0.5)
+                            .opacity(isLoaded ? 1 : 0)
 
                         // Title and Description
                         VStack(spacing: 6) {
