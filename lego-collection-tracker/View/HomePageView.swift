@@ -117,13 +117,10 @@ struct HomePageView: View {
                     
                     // Collection Stats Section
                     VStack(spacing: 15) {
-                        // Stats Grid
-                        LazyVGrid(columns: [
-                            GridItem(.flexible(), spacing: 15),
-                            GridItem(.flexible(), spacing: 15)
-                        ], spacing: 15) {
+                        // Stats Cards
+                        VStack(spacing: 15) {
                             // Total Sets Card
-                            VStack(alignment: .leading, spacing: 12) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 // Header
                                 HStack(spacing: 12) {
                                     Image(systemName: "cube.box.fill")
@@ -180,9 +177,8 @@ struct HomePageView: View {
                                             .foregroundColor(.primary)
                                     }
                                 }
-                                Spacer()
                             }
-                            .frame(height: 160)
+                            .frame(height: 120)
                             .padding(16)
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
@@ -193,7 +189,7 @@ struct HomePageView: View {
                             .opacity(isLoaded ? 1 : 0)
                             
                             // Wishlist Card
-                            VStack(alignment: .leading, spacing: 12) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 // Header
                                 HStack(spacing: 12) {
                                     Image(systemName: "heart.fill")
@@ -218,7 +214,7 @@ struct HomePageView: View {
                                 Divider()
                                     .background(Color.gray.opacity(0.2))
                                 
-                                // Next purchase carousel
+                                // Next purchase scrolling
                                 VStack(alignment: .leading, spacing: 4) {
                                     HStack(spacing: 6) {
                                         Image(systemName: "star.fill")
@@ -256,9 +252,8 @@ struct HomePageView: View {
                                         .frame(height: 40)
                                     }
                                 }
-                                Spacer()
                             }
-                            .frame(height: 160)
+                            .frame(height: 120)
                             .padding(16)
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
