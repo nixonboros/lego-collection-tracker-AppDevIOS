@@ -70,7 +70,7 @@ struct HomePageView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 100, height: 100)
-                            .shadow(color: Color.black.opacity(0.3), radius: 12, x: 0, y: 6)
+                            .shadow(color: Color.black.opacity(0.6), radius: 12, x: 0, y: 6)
                             .scaleEffect(isLoaded ? 1 : 0.5)
                             .opacity(isLoaded ? 1 : 0)
 

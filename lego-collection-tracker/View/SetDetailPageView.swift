@@ -114,50 +114,102 @@ struct SetDetailPageView: View {
                     .offset(y: isLoaded ? 0 : 20)
                     .opacity(isLoaded ? 1 : 0)
 
-                    // Add to Button
-                    Button(action: {
-                        showingActionSheet = true
-                    }) {
-                        HStack {
-                            Image(systemName: isInWishlist ? "heart.fill" : "plus.circle.fill")
-                            Text(isInWishlist ? "Remove from Wishlist" : "Add to...")
-                                .font(.system(size: 16, weight: .medium))
+                    // Buttons 
+                    VStack(spacing: 12) {
+                        if isInWishlist {
+                            // Move to Collection button (when in wishlist)
+                            Button(action: {
+                                // Add to Collection logic
+                            }) {
+                                HStack {
+                                    Image(systemName: "tray.and.arrow.down.fill")
+                                    Text("Move to Collection")
+                                        .font(.system(size: 16, weight: .medium))
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.primaryBlue,
+                                            Color.primaryBlue.opacity(0.8)
+                                        ]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .foregroundColor(.white)
+                                .cornerRadius(16)
+                                .shadow(color: Color.primaryBlue.opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
+                            
+                            // Remove from Wishlist button (when in wishlist)
+                            Button(action: {
+                                DataController.removeFromWishlist(set)
+                                isInWishlist = false
+                            }) {
+                                HStack {
+                                    Image(systemName: "heart.slash.fill")
+                                    Text("Remove from Wishlist")
+                                        .font(.system(size: 16, weight: .medium))
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.primaryRed,
+                                            Color.primaryRed.opacity(0.8)
+                                        ]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .foregroundColor(.white)
+                                .cornerRadius(16)
+                                .shadow(color: Color.primaryRed.opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
+                        } else {
+                            // Add to Button (when not in wishlist)
+                            Button(action: {
+                                showingActionSheet = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "plus.circle.fill")
+                                    Text("Add to...")
+                                        .font(.system(size: 16, weight: .medium))
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.primaryBlue,
+                                            Color.primaryBlue.opacity(0.8)
+                                        ]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .foregroundColor(.white)
+                                .cornerRadius(16)
+                                .shadow(color: Color.primaryBlue.opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    isInWishlist ? Color.primaryRed : Color.primaryBlue,
-                                    isInWishlist ? Color.primaryRed.opacity(0.8) : Color.primaryBlue.opacity(0.8)
-                                ]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .foregroundColor(.white)
-                        .cornerRadius(16)
-                        .shadow(color: (isInWishlist ? Color.primaryRed : Color.primaryBlue).opacity(0.3), radius: 8, x: 0, y: 4)
                     }
                     .padding(.horizontal)
                     .offset(y: isLoaded ? 0 : 20)
                     .opacity(isLoaded ? 1 : 0)
                     .actionSheet(isPresented: $showingActionSheet) {
                         ActionSheet(
-                            title: Text("Options"),
+                            title: Text("Add to..."),
                             buttons: [
                                 .default(Text("Add to Collection")) {
                                     // Add to Collection logic
-                                    
                                 },
-                                .default(Text(isInWishlist ? "Remove from Wishlist" : "Add to Wishlist")) {
-                                    // Add to Wishlist logic
-                                    if isInWishlist {
-                                        DataController.removeFromWishlist(set)
-                                    } else {
-                                        DataController.addToWishlist(set)
-                                    }
-                                    isInWishlist.toggle()
+                                .default(Text("Add to Wishlist")) {
+                                    DataController.addToWishlist(set)
+                                    isInWishlist = true
                                 },
                                 .cancel()
                             ]
