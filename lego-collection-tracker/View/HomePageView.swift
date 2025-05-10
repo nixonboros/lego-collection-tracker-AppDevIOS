@@ -232,7 +232,20 @@ struct HomePageView: View {
                                     } else {
                                         TabView(selection: $currentIndex) {
                                             ForEach(Array(favoriteSets.enumerated()), id: \.element.id) { index, set in
-                                                HStack {
+                                                HStack(spacing: 12) {
+                                                    // Set Image
+                                                    AsyncImage(url: URL(string: set.img_url)) { image in
+                                                        image
+                                                            .resizable()
+                                                            .scaledToFill()
+                                                    } placeholder: {
+                                                        ProgressView()
+                                                            .frame(width: 40, height: 40)
+                                                    }
+                                                    .frame(width: 40, height: 40)
+                                                    .cornerRadius(10)
+                                                    .shadow(color: Color.primaryRed.opacity(0.1), radius: 5, x: 0, y: 2)
+                                                    
                                                     VStack(alignment: .leading, spacing: 4) {
                                                         Text(set.name)
                                                             .font(.system(size: 14, weight: .bold))
