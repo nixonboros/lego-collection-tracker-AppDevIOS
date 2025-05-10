@@ -43,7 +43,7 @@ struct SetDetailPageView: View {
                             .frame(width: 250, height: 250)
                     }
                     .frame(width: 250, height: 250)
-                    .scaleEffect(isLoaded ? 1 : 0.8)
+                    .scaleEffect(isLoaded ? 1 : 0.5)
                     .opacity(isLoaded ? 1 : 0)
 
                     // Set Details Card
@@ -61,7 +61,7 @@ struct SetDetailPageView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.primary)
                         }
-                        .offset(x: isLoaded ? 0 : -20)
+                        .offset(y: isLoaded ? 0 : 20)
                         .opacity(isLoaded ? 1 : 0)
 
                         Divider()
@@ -81,7 +81,7 @@ struct SetDetailPageView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.primary)
                         }
-                        .offset(x: isLoaded ? 0 : -20)
+                        .offset(y: isLoaded ? 0 : 20)
                         .opacity(isLoaded ? 1 : 0)
 
                         Divider()
@@ -101,7 +101,7 @@ struct SetDetailPageView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.primary)
                         }
-                        .offset(x: isLoaded ? 0 : -20)
+                        .offset(y: isLoaded ? 0 : 20)
                         .opacity(isLoaded ? 1 : 0)
                     }
                     .padding(20)
@@ -120,7 +120,6 @@ struct SetDetailPageView: View {
                     }) {
                         HStack {
                             Image(systemName: isInWishlist ? "heart.fill" : "plus.circle.fill")
-                                .font(.system(size: 18))
                             Text(isInWishlist ? "Remove from Wishlist" : "Add to...")
                                 .font(.system(size: 16, weight: .medium))
                         }
@@ -171,7 +170,7 @@ struct SetDetailPageView: View {
         .onAppear {
             isLoaded = false
             isInWishlist = DataController.isInWishlist(set)
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.1)) {
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 isLoaded = true
             }
         }
