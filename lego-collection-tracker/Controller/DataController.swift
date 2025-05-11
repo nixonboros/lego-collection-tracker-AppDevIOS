@@ -26,31 +26,36 @@ class DataController {
 
         var legoSets: [LegoSetModel] = []
         let header = lines.removeFirst()
-        let columns = header.components(separatedBy: ",")
-
+        
+        // Use CSV parser that handles quoted fields
+        let csvParser = CSVParser()
+        
         for line in lines {
-            let values = line.components(separatedBy: ",")
-            if values.count == columns.count {
-                let set_num = values[0]
-                let name = values[1]
-                let year = Int(values[2]) ?? 0
-                let theme_id = Int(values[3]) ?? 0
-                let num_parts = Int(values[4]) ?? 0
-                let img_url = values[5]
-                let instructions_url = values[6]
-
-                let legoSet = LegoSetModel(
-                    set_num: set_num,
-                    name: name,
-                    year: year,
-                    theme_id: theme_id,
-                    num_parts: num_parts,
-                    img_url: img_url,
-                    instructions_url: instructions_url
-                )
-                legoSets.append(legoSet)
+            guard let values = csvParser.parse(line: line), values.count == 7 else {
+                print("Skipping line (doesnt have 7 columns): \(line)")
+                continue
             }
+
+            let set_num = values[0].trimmingCharacters(in: .whitespacesAndNewlines)
+            let name = values[1].trimmingCharacters(in: .whitespacesAndNewlines)
+            let year = Int(values[2].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+            let theme_id = Int(values[3].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+            let num_parts = Int(values[4].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+            let img_url = values[5].trimmingCharacters(in: .whitespacesAndNewlines)
+            let instructions_url = values[6].trimmingCharacters(in: .whitespacesAndNewlines)
+
+            let legoSet = LegoSetModel(
+                set_num: set_num,
+                name: name,
+                year: year,
+                theme_id: theme_id,
+                num_parts: num_parts,
+                img_url: img_url,
+                instructions_url: instructions_url
+            )
+            legoSets.append(legoSet)
         }
+
         return legoSets
     }
     
@@ -90,3 +95,28 @@ class DataController {
         return wishlist.contains { $0.set_num == set.set_num }
     }
 } 
+
+// Add this CSV parser class
+class CSVParser {
+    func parse(line: String) -> [String]? {
+        var fields: [String] = []
+        var currentField = ""
+        var insideQuotes = false
+        
+        for char in line {
+            if char == "\"" {
+                insideQuotes.toggle()
+            } else if char == "," && !insideQuotes {
+                fields.append(currentField)
+                currentField = ""
+            } else {
+                currentField.append(char)
+            }
+        }
+        
+        // Add the last field
+        fields.append(currentField)
+        
+        return fields
+    }
+}
