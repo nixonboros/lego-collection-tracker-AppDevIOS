@@ -2,7 +2,7 @@ import Foundation
 
 enum SortCriteria: String, CaseIterable, Identifiable {
     case name = "Name"
-    case setNumber = "Set Number"
+    case setNumber = "Set No."
     case year = "Year"
     case parts = "Parts"
     var id: String { self.rawValue }
@@ -17,12 +17,14 @@ class SortController {
     // Returns appropriate label text for sort direction based on sort criteria and ascending/descending order selected
     static func getSortDirectionLabel(for options: SortOptions) -> String {
         switch options.criteria {
-        case .name, .setNumber:
+        case .name:
             return options.isAscending ? "A-Z" : "Z-A"
+        case .setNumber:
+            return options.isAscending ? "Lowest" : "Highest"
         case .year:
             return options.isAscending ? "Oldest" : "Newest"
         case .parts:
-            return options.isAscending ? "Fewest" : "Most"
+            return options.isAscending ? "Least" : "Most"
         }
     }
 
@@ -43,7 +45,6 @@ class SortController {
         let filtered = sets.filter { set in
             guard !searchText.isEmpty else { return true }
             return set.name.localizedCaseInsensitiveContains(searchText) || set.set_num.localizedCaseInsensitiveContains(searchText)
-
         }
         
         return filtered.sorted { first, second in
