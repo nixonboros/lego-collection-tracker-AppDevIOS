@@ -9,7 +9,7 @@ struct SetDetailPageView: View {
     
     var body: some View {
         ZStack {
-            // Linear gradient
+            // Background gradient
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(.systemBackground),

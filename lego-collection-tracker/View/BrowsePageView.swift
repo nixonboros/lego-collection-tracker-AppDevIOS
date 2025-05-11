@@ -8,7 +8,7 @@ struct BrowsePageView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background Gradient
+                // Background gradient
                 LinearGradient(
                     gradient: Gradient(colors: [Color(.systemBackground), Color.primaryRed.opacity(0.05), Color.primaryBlue.opacity(0.05)]),
                     startPoint: .top,

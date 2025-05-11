@@ -11,16 +11,16 @@ struct HomePageView: View {
         NavigationView {
             ZStack {
                 ZStack {
-                    // Linear gradient
-                LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color(.systemBackground),
-                            Color.primaryRed.opacity(0.05),
-                            Color.primaryBlue.opacity(0.05)
-                        ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+                    // Background gradient
+                    LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color(.systemBackground),
+                                Color.primaryRed.opacity(0.05),
+                                Color.primaryBlue.opacity(0.05)
+                            ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
                     
                     // Decorative background elements
                     VStack {
