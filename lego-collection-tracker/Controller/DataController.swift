@@ -37,8 +37,17 @@ class DataController {
                 let theme_id = Int(values[3]) ?? 0
                 let num_parts = Int(values[4]) ?? 0
                 let img_url = values[5]
+                let instructions_url = values[6]
 
-                let legoSet = LegoSetModel(set_num: set_num, name: name, year: year, theme_id: theme_id, num_parts: num_parts, img_url: img_url)
+                let legoSet = LegoSetModel(
+                    set_num: set_num,
+                    name: name,
+                    year: year,
+                    theme_id: theme_id,
+                    num_parts: num_parts,
+                    img_url: img_url,
+                    instructions_url: instructions_url
+                )
                 legoSets.append(legoSet)
             }
         }

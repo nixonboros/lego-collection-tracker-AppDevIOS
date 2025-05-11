@@ -9,6 +9,7 @@ struct LegoSetModel: Identifiable, Codable {
     let theme_id: Int
     let num_parts: Int
     let img_url: String
+    let instructions_url: String
     var isFavorite: Bool = false
     
     // Get the formatted set number (without dash and numbers after)
