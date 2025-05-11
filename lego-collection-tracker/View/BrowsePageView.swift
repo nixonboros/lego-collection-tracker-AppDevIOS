@@ -4,6 +4,7 @@ struct BrowsePageView: View {
     @State private var searchText: String = ""
     @State private var sortOptions: SortOptions = SortOptions(criteria: .name, isAscending: true)
     @State private var sets: [LegoSetModel] = []
+    @State private var isLoadingSets = true
 
     var body: some View {
         NavigationView {
@@ -20,20 +21,41 @@ struct BrowsePageView: View {
                     // Search and Sort Controls
                     SearchAndSortControls(searchText: $searchText, sortOptions: $sortOptions)
 
-                    // Results List
-                    List {
-                        ForEach(filteredAndSortedSets) { set in
-                            NavigationLink(destination: SetDetailPageView(set: set)) {
-                                SetRowView(set: set)
+                    if isLoadingSets {
+                        // Loading indicator
+                        VStack(spacing: 16) {
+                            ProgressView()
+                                .scaleEffect(1.5)
+                            Text("Loading sets...")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.gray)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        // Results List
+                        List {
+                            ForEach(filteredAndSortedSets) { set in
+                                NavigationLink(destination: SetDetailPageView(set: set)) {
+                                    SetRowView(set: set)
+                                }
                             }
                         }
+                        .listStyle(PlainListStyle())
                     }
-                    .listStyle(PlainListStyle())
                 }
             }
             .navigationTitle("Browse Sets")
             .onAppear {
-                sets = DataController.loadSets() // Ensure data is loaded when the view appears
+                // First load the sets in the background
+                DispatchQueue.global(qos: .userInitiated).async {
+                    let loadedSets = DataController.loadSets()
+                    
+                    // Then show them on screen
+                    DispatchQueue.main.async {
+                        sets = loadedSets
+                        isLoadingSets = false
+                    }
+                }
             }
         }
     }

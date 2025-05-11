@@ -4,6 +4,7 @@ struct WishlistPageView: View {
     @State private var wishlistSets: [LegoSetModel] = []
     @State private var searchText = ""
     @State private var sortOptions = SortOptions(criteria: .name, isAscending: true)
+    @State private var isLoadingSets = true
     
     var filteredSets: [LegoSetModel] {
         let filtered = SortController.filterAndSort(sets: wishlistSets, searchText: searchText, options: sortOptions)
@@ -30,7 +31,17 @@ struct WishlistPageView: View {
                     // Search and Sort Controls
                     SearchAndSortControls(searchText: $searchText, sortOptions: $sortOptions)
                     
-                    if filteredSets.isEmpty {
+                    if isLoadingSets {
+                        // Loading indicator
+                        VStack(spacing: 16) {
+                            ProgressView()
+                                .scaleEffect(1.5)
+                            Text("Loading wishlist...")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.gray)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else if filteredSets.isEmpty {
                         EmptyStateView(message: "Your wishlist is empty")
                     } else {
                         List {
@@ -51,7 +62,16 @@ struct WishlistPageView: View {
             }
         }
         .onAppear {
-            wishlistSets = DataController.loadWishlist()
+            // First load the sets in the background
+            DispatchQueue.global(qos: .userInitiated).async {
+                let loadedSets = DataController.loadWishlist()
+                
+                // Then show them on screen
+                DispatchQueue.main.async {
+                    wishlistSets = loadedSets
+                    isLoadingSets = false
+                }
+            }
         }
     }
     
