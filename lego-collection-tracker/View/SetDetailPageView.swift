@@ -114,7 +114,39 @@ struct SetDetailPageView: View {
                     .offset(y: isLoaded ? 0 : 20)
                     .opacity(isLoaded ? 1 : 0)
 
-                    // Buttons 
+                    // View Instructions Button
+                    Button(action: {
+                        // Add instructions pdf link view
+                    }) {
+                        HStack {
+                            Image(systemName: "doc.text.fill")
+                            Text("View Instructions")
+                                .font(.system(size: 16, weight: .medium))
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: Color.primaryBlue.opacity(0.2), radius: 8, x: 0, y: 4)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.primaryBlue, lineWidth: 1.5)
+                        )
+                        .foregroundColor(Color.primaryBlue)
+                    }
+                    .padding(.horizontal)
+                    .offset(y: isLoaded ? 0 : 20)
+                    .opacity(isLoaded ? 1 : 0)
+
+                    // Separator line
+                    Divider()
+                        .background(Color.black)
+                        .padding(.horizontal)
+                        .opacity(isLoaded ? 1 : 0)
+
+                    // Collection/Wishlist Buttons
                     VStack(spacing: 12) {
                         if isInWishlist {
                             // Move to Collection button (when in wishlist)
