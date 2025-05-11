@@ -39,7 +39,7 @@ class DataController {
             let set_num = values[0].trimmingCharacters(in: .whitespacesAndNewlines)
             let name = values[1].trimmingCharacters(in: .whitespacesAndNewlines)
             let year = Int(values[2].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
-            let theme_id = Int(values[3].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+            let theme = values[3].trimmingCharacters(in: .whitespacesAndNewlines)
             let num_parts = Int(values[4].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
             let img_url = values[5].trimmingCharacters(in: .whitespacesAndNewlines)
             let instructions_url = values[6].trimmingCharacters(in: .whitespacesAndNewlines)
@@ -48,7 +48,7 @@ class DataController {
                 set_num: set_num,
                 name: name,
                 year: year,
-                theme_id: theme_id,
+                theme: theme,
                 num_parts: num_parts,
                 img_url: img_url,
                 instructions_url: instructions_url

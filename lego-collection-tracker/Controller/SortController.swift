@@ -42,16 +42,8 @@ class SortController {
     static func filterAndSort(sets: [LegoSetModel], searchText: String, options: SortOptions) -> [LegoSetModel] {
         let filtered = sets.filter { set in
             guard !searchText.isEmpty else { return true }
-            switch options.criteria {
-            case .name:
-                return set.name.localizedCaseInsensitiveContains(searchText)
-            case .setNumber:
-                return set.set_num.localizedCaseInsensitiveContains(searchText)
-            case .year:
-                return String(set.year).contains(searchText)
-            case .parts:
-                return String(set.num_parts).contains(searchText)
-            }
+            return set.name.localizedCaseInsensitiveContains(searchText) || set.set_num.localizedCaseInsensitiveContains(searchText)
+
         }
         
         return filtered.sorted { first, second in

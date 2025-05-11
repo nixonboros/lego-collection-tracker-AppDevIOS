@@ -5,6 +5,7 @@ struct SetDetailPageView: View {
     @State private var showingActionSheet = false
     @State private var isLoaded = false
     @State private var isInWishlist = false
+    @State private var showingPDF = false
     
     var body: some View {
         ZStack {
@@ -68,6 +69,26 @@ struct SetDetailPageView: View {
                             .background(Color.gray.opacity(0.2))
                             .opacity(isLoaded ? 1 : 0)
 
+                        // Theme
+                        HStack {
+                            Image(systemName: "tag.fill")
+                                .foregroundColor(Color.primaryBlue)
+                                .frame(width: 24)
+                            Text("Theme")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Text(set.theme)
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.primary)
+                        }
+                        .offset(y: isLoaded ? 0 : 20)
+                        .opacity(isLoaded ? 1 : 0)
+
+                        Divider()
+                            .background(Color.gray.opacity(0.2))
+                            .opacity(isLoaded ? 1 : 0)
+
                         // Year
                         HStack {
                             Image(systemName: "calendar")
@@ -116,7 +137,7 @@ struct SetDetailPageView: View {
 
                     // View Instructions Button
                     Button(action: {
-                        // Add instructions pdf link view
+                        showingPDF = true
                     }) {
                         HStack {
                             Image(systemName: "doc.text.fill")
@@ -139,6 +160,14 @@ struct SetDetailPageView: View {
                     .padding(.horizontal)
                     .offset(y: isLoaded ? 0 : 20)
                     .opacity(isLoaded ? 1 : 0)
+                    .sheet(isPresented: $showingPDF) {
+                        if let url = URL(string: set.instructions_url) {
+                            PDFSheetView(url: url)
+                        } else {
+                            Text("Error Loading Instructions")
+                                .font(.headline)
+                        }
+                    }
 
                     // Separator line
                     Divider()

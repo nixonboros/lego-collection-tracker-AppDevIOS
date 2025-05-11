@@ -6,7 +6,7 @@ struct LegoSetModel: Identifiable, Codable {
     let set_num: String
     let name: String
     let year: Int
-    let theme_id: Int
+    let theme: String
     let num_parts: Int
     let img_url: String
     let instructions_url: String
