@@ -3,6 +3,7 @@ import Foundation
 enum SortCriteria: String, CaseIterable, Identifiable {
     case name = "Name"
     case setNumber = "Set No."
+    case theme = "Theme"
     case year = "Year"
     case parts = "Parts"
     var id: String { self.rawValue }
@@ -21,6 +22,8 @@ class SortController {
             return options.isAscending ? "A-Z" : "Z-A"
         case .setNumber:
             return options.isAscending ? "Lowest" : "Highest"
+        case .theme:
+            return options.isAscending ? "A-Z" : "Z-A"
         case .year:
             return options.isAscending ? "Oldest" : "Newest"
         case .parts:
@@ -31,7 +34,7 @@ class SortController {
     // Returns appropriate icon for sort direction based on sort criteria and ascending/descending order selected
     static func getSortDirectionIcon(for options: SortOptions) -> String {
         switch options.criteria {
-        case .name, .setNumber:
+        case .name, .setNumber, .theme:
             return options.isAscending ? "arrow.up" : "arrow.down"
         case .year:
             return options.isAscending ? "calendar.badge.clock" : "calendar.badge.plus"
@@ -44,7 +47,9 @@ class SortController {
     static func filterAndSort(sets: [LegoSetModel], searchText: String, options: SortOptions) -> [LegoSetModel] {
         let filtered = sets.filter { set in
             guard !searchText.isEmpty else { return true }
-            return set.name.localizedCaseInsensitiveContains(searchText) || set.set_num.localizedCaseInsensitiveContains(searchText)
+            return set.name.localizedCaseInsensitiveContains(searchText) || 
+                   set.set_num.localizedCaseInsensitiveContains(searchText) ||
+                   set.theme.localizedCaseInsensitiveContains(searchText)
         }
         
         return filtered.sorted { first, second in
@@ -54,6 +59,8 @@ class SortController {
                 comparison = first.name.localizedCaseInsensitiveCompare(second.name)
             case .setNumber:
                 comparison = first.set_num.localizedCaseInsensitiveCompare(second.set_num)
+            case .theme:
+                comparison = first.theme.localizedCaseInsensitiveCompare(second.theme)
             case .year:
                 comparison = first.year < second.year ? .orderedAscending : .orderedDescending
             case .parts:
