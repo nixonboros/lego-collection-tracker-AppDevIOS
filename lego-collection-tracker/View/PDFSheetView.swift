@@ -1,7 +1,26 @@
 import SwiftUI
 import PDFKit
 
-struct PDFSheetView: UIViewRepresentable {
+struct PDFSheetView: View {
+    let url: URL
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Drag indicator at top
+            RoundedRectangle(cornerRadius: 2.5)
+                .fill(Color.gray.opacity(0.3))
+                .frame(width: 36, height: 5)
+                .padding(.top, 8)
+                .padding(.bottom, 8)
+            
+            // PDF View
+            PDFKitView(url: url)
+        }
+        .background(Color(.systemBackground))
+    }
+}
+
+struct PDFKitView: UIViewRepresentable {
     let url: URL
     
     func makeUIView(context: Context) -> PDFView {
@@ -14,6 +33,5 @@ struct PDFSheetView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: PDFView, context: Context) {
-        
     }
 }

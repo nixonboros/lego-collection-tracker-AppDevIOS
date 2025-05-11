@@ -6,6 +6,7 @@ struct SetDetailPageView: View {
     @State private var isLoaded = false
     @State private var isInWishlist = false
     @State private var showingPDF = false
+    @State private var loadingPDF = false   
     
     var body: some View {
         ZStack {
@@ -137,11 +138,18 @@ struct SetDetailPageView: View {
 
                     // View Instructions Button
                     Button(action: {
+                        loadingPDF = true
                         showingPDF = true
                     }) {
                         HStack {
-                            Image(systemName: "doc.text.fill")
-                            Text("View Instructions")
+                            if loadingPDF {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: Color.primaryBlue))
+                                    .scaleEffect(0.8)
+                            } else {
+                                Image(systemName: "doc.text.fill")
+                            }
+                            Text(loadingPDF ? "Loading..." : "View Instructions")
                                 .font(.system(size: 16, weight: .medium))
                         }
                         .frame(maxWidth: .infinity)
@@ -157,15 +165,17 @@ struct SetDetailPageView: View {
                         )
                         .foregroundColor(Color.primaryBlue)
                     }
+                    .disabled(loadingPDF)
                     .padding(.horizontal)
                     .offset(y: isLoaded ? 0 : 20)
                     .opacity(isLoaded ? 1 : 0)
-                    .sheet(isPresented: $showingPDF) {
+                    .sheet(isPresented: $showingPDF, onDismiss: {
+                        loadingPDF = false
+                    }) {
                         if let url = URL(string: set.instructions_url) {
                             PDFSheetView(url: url)
                         } else {
                             Text("Error Loading Instructions")
-                                .font(.headline)
                         }
                     }
 
