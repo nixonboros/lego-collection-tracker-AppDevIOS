@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct CollectionPageView: View {
-    @State private var collectionSets: [LegoSetModel] = [] // Replace with actual data loading later
+    @State private var collectionSets: [LegoSetModel] = []
     @State private var searchText = ""
     @State private var sortOptions = SortOptions(criteria: .name, isAscending: true)
+    @State private var isLoadingSets = true
     
     var filteredSets: [LegoSetModel] {
         return SortController.filterAndSort(sets: collectionSets, searchText: searchText, options: sortOptions)
@@ -28,7 +29,17 @@ struct CollectionPageView: View {
                     // Search and Sort Controls
                     SearchAndSortControls(searchText: $searchText, sortOptions: $sortOptions)
                     
-                    if filteredSets.isEmpty {
+                    if isLoadingSets {
+                        // Loading indicator
+                        VStack(spacing: 16) {
+                            ProgressView()
+                                .scaleEffect(1.5)
+                            Text("Loading collection...")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.gray)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else if filteredSets.isEmpty {
                         EmptyStateView(message: "Your collection is empty")
                     } else {
                         List {
@@ -56,6 +67,7 @@ struct CollectionPageView: View {
                 // Then show them on screen
                 DispatchQueue.main.async {
                     collectionSets = loadedSets
+                    isLoadingSets = false
                 }
             }
         }
