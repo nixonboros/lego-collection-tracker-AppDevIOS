@@ -1,6 +1,7 @@
 import Foundation
 
 class DataController {
+    // Loads the sets from the CSV file
     static func loadSets() -> [LegoSetModel] {
         guard let path = Bundle.main.path(forResource: "sets", ofType: "csv") else {
             print("Could not find sets.csv")
@@ -16,15 +17,20 @@ class DataController {
         }
     }
 
+    // Parses the CSV file into a list of LegoSetModel objects
     private static func parseCSV(text: String) -> [LegoSetModel] {
         var lines: [String] = []
         text.enumerateLines { line, _ in lines.append(line) }
 
+        // Initializes the list of LegoSetModel objects
         var legoSets: [LegoSetModel] = []
+
+        // Removes the header line
         _ = lines.removeFirst()
 
         let csvParser = CSVParser()
         
+        // Parses the CSV file
         for line in lines {
             guard let values = csvParser.parse(line: line), values.count == 7 else {
                 print("Skipping line (doesn't have 7 columns): \(line)")

@@ -267,16 +267,20 @@ struct HomePageView: View {
             .navigationBarHidden(true)
             .onAppear {
                 isLoaded = false
+
+                // Load the collection 
+                let collection = DataController.loadCollection()
+                collectionCount = collection.count
+                
+                // Load the wishlist
                 let wishlist = DataController.loadWishlist()
                 wishlistCount = wishlist.count
                 favoriteSets = wishlist.filter { $0.isFavorite }
                 
-                let collection = DataController.loadCollection()
-                collectionCount = collection.count
-                
                 // Start auto-scrolling timer
                 startAutoScroll()
                 
+                // Animation to show the content
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                     isLoaded = true
                 }

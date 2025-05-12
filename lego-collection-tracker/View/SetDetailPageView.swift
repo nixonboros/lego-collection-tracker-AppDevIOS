@@ -320,8 +320,14 @@ struct SetDetailPageView: View {
         }
         .onAppear {
             isLoaded = false
-            isInWishlist = DataController.isInWishlist(set)
+            
+            // Load the collection 
             isInCollection = DataController.isInCollection(set)
+
+            // Load the wishlist
+            isInWishlist = DataController.isInWishlist(set)
+
+            // Animation to show the content
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 isLoaded = true
             }

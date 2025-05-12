@@ -49,6 +49,7 @@ struct CollectionPageView: View {
             }
         }
         .onAppear {
+            // First load the sets in the background
             DispatchQueue.global(qos: .userInitiated).async {
                 let loadedSets = DataController.loadCollection()
                 
