@@ -2,10 +2,10 @@ import SwiftUI
 
 struct HomePageView: View {
     @State private var isLoaded = false
-    @State private var wishlistCount = 0
     @State private var collectionCount = 0
     @State private var builtCount = 0
     @State private var unbuiltCount = 0
+    @State private var wishlistCount = 0
     @State private var favoriteSets: [LegoSetModel] = []
     @State private var currentIndex = 0
     @State private var timer: Timer?

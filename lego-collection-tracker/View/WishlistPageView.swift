@@ -10,7 +10,7 @@ struct WishlistPageView: View {
         let filtered = SortController.filterAndSort(sets: wishlistSets, searchText: searchText, options: sortOptions)
         // Sort to show favorited items first
         return filtered.sorted { $0.isFavorite && !$1.isFavorite }
-    }
+    } 
 
     var body: some View {
         NavigationView {

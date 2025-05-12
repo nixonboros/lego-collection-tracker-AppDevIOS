@@ -52,42 +52,6 @@ class DataController {
         return legoSets
     }
 
-    // Wishlist Management Functions
-    private static let wishlistKey = "userWishlist"
-
-    static func addToWishlist(_ set: LegoSetModel) {
-        var wishlist = loadWishlist()
-        if !wishlist.contains(where: { $0.set_num == set.set_num }) {
-            wishlist.append(set)
-            saveWishlist(wishlist)
-        }
-    }
-
-    static func removeFromWishlist(_ set: LegoSetModel) {
-        var wishlist = loadWishlist()
-        wishlist.removeAll { $0.set_num == set.set_num }
-        saveWishlist(wishlist)
-    }
-
-    static func loadWishlist() -> [LegoSetModel] {
-        if let data = UserDefaults.standard.data(forKey: wishlistKey),
-           let wishlist = try? JSONDecoder().decode([LegoSetModel].self, from: data) {
-            return wishlist
-        }
-        return []
-    }
-
-    static func saveWishlist(_ sets: [LegoSetModel]) {
-        if let encoded = try? JSONEncoder().encode(sets) {
-            UserDefaults.standard.set(encoded, forKey: wishlistKey)
-        }
-    }
-
-    static func isInWishlist(_ set: LegoSetModel) -> Bool {
-        let wishlist = loadWishlist()
-        return wishlist.contains { $0.set_num == set.set_num }
-    }
-
     // Collection Management Functions
     private static let collectionKey = "userCollection"
 
@@ -122,6 +86,42 @@ class DataController {
     static func isInCollection(_ set: LegoSetModel) -> Bool {
         let collection = loadCollection()
         return collection.contains { $0.set_num == set.set_num }
+    }
+
+    // Wishlist Management Functions
+    private static let wishlistKey = "userWishlist"
+
+    static func addToWishlist(_ set: LegoSetModel) {
+        var wishlist = loadWishlist()
+        if !wishlist.contains(where: { $0.set_num == set.set_num }) {
+            wishlist.append(set)
+            saveWishlist(wishlist)
+        }
+    }
+
+    static func removeFromWishlist(_ set: LegoSetModel) {
+        var wishlist = loadWishlist()
+        wishlist.removeAll { $0.set_num == set.set_num }
+        saveWishlist(wishlist)
+    }
+
+    static func loadWishlist() -> [LegoSetModel] {
+        if let data = UserDefaults.standard.data(forKey: wishlistKey),
+           let wishlist = try? JSONDecoder().decode([LegoSetModel].self, from: data) {
+            return wishlist
+        }
+        return []
+    }
+
+    static func saveWishlist(_ sets: [LegoSetModel]) {
+        if let encoded = try? JSONEncoder().encode(sets) {
+            UserDefaults.standard.set(encoded, forKey: wishlistKey)
+        }
+    }
+
+    static func isInWishlist(_ set: LegoSetModel) -> Bool {
+        let wishlist = loadWishlist()
+        return wishlist.contains { $0.set_num == set.set_num }
     }
 }
 
