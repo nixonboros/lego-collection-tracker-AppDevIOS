@@ -5,6 +5,7 @@ struct BrowsePageView: View {
     @State private var sortOptions: SortOptions = SortOptions(criteria: .name, isAscending: true)
     @State private var sets: [LegoSetModel] = []
     @State private var isLoadingSets = true
+    @State private var hasLoadedInitialData = false
 
     var body: some View {
         NavigationView {
@@ -46,14 +47,18 @@ struct BrowsePageView: View {
             }
             .navigationTitle("Browse Sets")
             .onAppear {
-                // First load the sets in the background
-                DispatchQueue.global(qos: .userInitiated).async {
-                    let loadedSets = DataController.loadSets()
-                    
-                    // Then show them on screen
-                    DispatchQueue.main.async {
-                        sets = loadedSets
-                        isLoadingSets = false
+                // Only load data if we haven't loaded it before
+                if !hasLoadedInitialData {
+                    // First load the sets in the background
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        let loadedSets = DataController.loadSets()
+                        
+                        // Then show them on screen
+                        DispatchQueue.main.async {
+                            sets = loadedSets
+                            isLoadingSets = false
+                            hasLoadedInitialData = true
+                        }
                     }
                 }
             }
