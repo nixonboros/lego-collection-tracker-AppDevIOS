@@ -4,6 +4,8 @@ struct HomePageView: View {
     @State private var isLoaded = false
     @State private var wishlistCount = 0
     @State private var collectionCount = 0
+    @State private var builtCount = 0
+    @State private var unbuiltCount = 0
     @State private var favoriteSets: [LegoSetModel] = []
     @State private var currentIndex = 0
     @State private var timer: Timer?
@@ -141,7 +143,7 @@ struct HomePageView: View {
                                                 .font(.system(size: 12, weight: .medium))
                                                 .foregroundColor(.gray)
                                         }
-                                        Text("0")
+                                        Text("\(builtCount)")
                                             .font(.system(size: 16, weight: .bold))
                                             .foregroundColor(.primary)
                                     }
@@ -156,7 +158,7 @@ struct HomePageView: View {
                                                 .font(.system(size: 12, weight: .medium))
                                                 .foregroundColor(.gray)
                                         }
-                                        Text("0")
+                                        Text("\(unbuiltCount)")
                                             .font(.system(size: 16, weight: .bold))
                                             .foregroundColor(.primary)
                                     }
@@ -271,7 +273,9 @@ struct HomePageView: View {
                 // Load the collection 
                 let collection = DataController.loadCollection()
                 collectionCount = collection.count
-                
+                builtCount = collection.filter { $0.isBuilt }.count
+                unbuiltCount = collectionCount - builtCount
+
                 // Load the wishlist
                 let wishlist = DataController.loadWishlist()
                 wishlistCount = wishlist.count
