@@ -11,6 +11,7 @@ struct LegoSetModel: Identifiable, Codable {
     let img_url: String
     let instructions_url: String
     var isFavorite: Bool = false
+    var isBuilt: Bool = false
     
     // Get the formatted set number (without dash and numbers after)
     var formattedSetNumber: String {

@@ -125,6 +125,7 @@ class DataController {
     }
 }
 
+// CSV Parser class for handling comma-separated values with quote supportxw
 class CSVParser {
     func parse(line: String) -> [String]? {
         var fields: [String] = []

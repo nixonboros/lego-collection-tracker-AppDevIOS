@@ -5,9 +5,18 @@ struct CollectionPageView: View {
     @State private var searchText = ""
     @State private var sortOptions = SortOptions(criteria: .name, isAscending: true)
     @State private var isLoadingSets = true
+    @State private var builtFilter: BuiltFilter = .all
     
     var filteredSets: [LegoSetModel] {
-        return SortController.filterAndSort(sets: collectionSets, searchText: searchText, options: sortOptions)
+        let filtered = SortController.filterAndSort(sets: collectionSets, searchText: searchText, options: sortOptions)
+        switch builtFilter {
+        case .all:
+            return filtered
+        case .built:
+            return filtered.filter { $0.isBuilt }
+        case .unbuilt:
+            return filtered.filter { !$0.isBuilt }
+        }
     }
 
     var body: some View {
@@ -29,6 +38,27 @@ struct CollectionPageView: View {
                     // Search and Sort Controls
                     SearchAndSortControls(searchText: $searchText, sortOptions: $sortOptions)
                     
+                    // Built/Unbuilt Filter Controls
+                    HStack(spacing: 12) {
+                        FilterButton(
+                            title: "All",
+                            isSelected: builtFilter == .all,
+                            action: { builtFilter = .all }
+                        )
+                        FilterButton(
+                            title: "Built",
+                            isSelected: builtFilter == .built,
+                            action: { builtFilter = .built }
+                        )
+                        FilterButton(
+                            title: "Unbuilt",
+                            isSelected: builtFilter == .unbuilt,
+                            action: { builtFilter = .unbuilt }
+                        )
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
+                    
                     if isLoadingSets {
                         // Loading indicator
                         VStack(spacing: 16) {
@@ -45,7 +75,7 @@ struct CollectionPageView: View {
                         List {
                             ForEach(filteredSets) { set in
                                 NavigationLink(destination: SetDetailPageView(set: set)) {
-                                    CollectionSetRowView(set: set)
+                                    CollectionSetRowView(set: set, onBuiltToggle: toggleBuilt)
                                 }
                             }
                         }
@@ -70,6 +100,14 @@ struct CollectionPageView: View {
                     isLoadingSets = false
                 }
             }
+        }
+    }
+
+    // Toggle built/unbuilt status
+    private func toggleBuilt(_ set: LegoSetModel) {
+        if let index = collectionSets.firstIndex(where: { $0.id == set.id }) {
+            collectionSets[index].isBuilt.toggle()
+            DataController.saveCollection(collectionSets)
         }
     }
 }
@@ -159,6 +197,7 @@ private struct SearchAndSortControls: View {
 
 private struct CollectionSetRowView: View {
     let set: LegoSetModel
+    var onBuiltToggle: ((LegoSetModel) -> Void)? = nil
 
     var body: some View {
         HStack(spacing: 16) {
@@ -200,6 +239,16 @@ private struct CollectionSetRowView: View {
                     .foregroundColor(.gray)
                 }
             }
+            Spacer()
+            // Built/Unbuilt Toggle Button
+            if let onBuiltToggle = onBuiltToggle {
+                Button(action: { onBuiltToggle(set) }) {
+                    Image(systemName: set.isBuilt ? "checkmark.seal.fill" : "seal")
+                        .foregroundColor(set.isBuilt ? .green : .gray)
+                        .font(.system(size: 24))
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
         }
         .padding(.vertical, 12)
     }
@@ -218,5 +267,32 @@ private struct EmptyStateView: View {
                 .foregroundColor(.gray)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+// Built/Unbuilt filter enum
+private enum BuiltFilter {
+    case all, built, unbuilt
+}
+
+// Add this new view for the filter buttons
+private struct FilterButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 16, weight: isSelected ? .medium : .regular))
+                .foregroundColor(isSelected ? .white : .primary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(isSelected ? Color.primaryBlue : Color(.systemBackground))
+                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+                )
+        }
     }
 }
