@@ -3,6 +3,7 @@ import SwiftUI
 struct HomePageView: View {
     @State private var isLoaded = false
     @State private var wishlistCount = 0
+    @State private var collectionCount = 0
     @State private var favoriteSets: [LegoSetModel] = []
     @State private var currentIndex = 0
     @State private var timer: Timer?
@@ -119,7 +120,7 @@ struct HomePageView: View {
                                         Text("Total Sets")
                                             .font(.system(size: 14, weight: .medium))
                                             .foregroundColor(.gray)
-                                        Text("0")
+                                        Text("\(collectionCount)")
                                             .font(.system(size: 24, weight: .bold))
                                             .foregroundColor(.primary)
                                     }
@@ -269,6 +270,9 @@ struct HomePageView: View {
                 let wishlist = DataController.loadWishlist()
                 wishlistCount = wishlist.count
                 favoriteSets = wishlist.filter { $0.isFavorite }
+                
+                let collection = DataController.loadCollection()
+                collectionCount = collection.count
                 
                 // Start auto-scrolling timer
                 startAutoScroll()

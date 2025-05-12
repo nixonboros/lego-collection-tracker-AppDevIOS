@@ -5,8 +5,9 @@ struct SetDetailPageView: View {
     @State private var showingActionSheet = false
     @State private var isLoaded = false
     @State private var isInWishlist = false
+    @State private var isInCollection = false
     @State private var showingPDF = false
-    @State private var loadingPDF = false   
+    @State private var loadingPDF = false
     
     var body: some View {
         ZStack {
@@ -99,7 +100,7 @@ struct SetDetailPageView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.gray)
                             Spacer()
-                            Text("\(set.year)")
+                            Text("\(set.year.description)")
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(.primary)
                         }
@@ -187,10 +188,38 @@ struct SetDetailPageView: View {
 
                     // Collection/Wishlist Buttons
                     VStack(spacing: 12) {
-                        if isInWishlist {
-                            // Move to Collection button (when in wishlist)
+                        if isInCollection {
                             Button(action: {
-                                // Add to Collection logic
+                                DataController.removeFromCollection(set)
+                                isInCollection = false
+                            }) {
+                                HStack {
+                                    Image(systemName: "tray.full.fill")
+                                    Text("Remove from Collection")
+                                        .font(.system(size: 16, weight: .medium))
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.primaryRed,
+                                            Color.primaryRed.opacity(0.8)
+                                        ]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .foregroundColor(.white)
+                                .cornerRadius(16)
+                                .shadow(color: Color.primaryRed.opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
+                        } else if isInWishlist {
+                            Button(action: {
+                                DataController.removeFromWishlist(set)
+                                DataController.addToCollection(set)
+                                isInWishlist = false
+                                isInCollection = true
                             }) {
                                 HStack {
                                     Image(systemName: "tray.and.arrow.down.fill")
@@ -213,8 +242,7 @@ struct SetDetailPageView: View {
                                 .cornerRadius(16)
                                 .shadow(color: Color.primaryBlue.opacity(0.3), radius: 8, x: 0, y: 4)
                             }
-                            
-                            // Remove from Wishlist button (when in wishlist)
+
                             Button(action: {
                                 DataController.removeFromWishlist(set)
                                 isInWishlist = false
@@ -241,7 +269,6 @@ struct SetDetailPageView: View {
                                 .shadow(color: Color.primaryRed.opacity(0.3), radius: 8, x: 0, y: 4)
                             }
                         } else {
-                            // Add to Button (when not in wishlist)
                             Button(action: {
                                 showingActionSheet = true
                             }) {
@@ -276,7 +303,8 @@ struct SetDetailPageView: View {
                             title: Text("Add to..."),
                             buttons: [
                                 .default(Text("Add to Collection")) {
-                                    // Add to Collection logic
+                                    DataController.addToCollection(set)
+                                    isInCollection = true
                                 },
                                 .default(Text("Add to Wishlist")) {
                                     DataController.addToWishlist(set)
@@ -293,6 +321,7 @@ struct SetDetailPageView: View {
         .onAppear {
             isLoaded = false
             isInWishlist = DataController.isInWishlist(set)
+            isInCollection = DataController.isInCollection(set)
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 isLoaded = true
             }

@@ -1,7 +1,6 @@
 import Foundation
 
 class DataController {
-    // Loads sets.csv file and returns array of LegoSetModel objects
     static func loadSets() -> [LegoSetModel] {
         guard let path = Bundle.main.path(forResource: "sets", ofType: "csv") else {
             print("Could not find sets.csv")
@@ -17,51 +16,39 @@ class DataController {
         }
     }
 
-    // Parses sets.csv file and returns array of LegoSetModel objects
     private static func parseCSV(text: String) -> [LegoSetModel] {
         var lines: [String] = []
-        text.enumerateLines { line, _ in
-            lines.append(line)
-        }
+        text.enumerateLines { line, _ in lines.append(line) }
 
         var legoSets: [LegoSetModel] = []
-        let header = lines.removeFirst()
-        
-        // Use CSV parser that handles quoted fields
+        _ = lines.removeFirst()
+
         let csvParser = CSVParser()
         
         for line in lines {
             guard let values = csvParser.parse(line: line), values.count == 7 else {
-                print("Skipping line (doesnt have 7 columns): \(line)")
+                print("Skipping line (doesn't have 7 columns): \(line)")
                 continue
             }
 
-            let set_num = values[0].trimmingCharacters(in: .whitespacesAndNewlines)
-            let name = values[1].trimmingCharacters(in: .whitespacesAndNewlines)
-            let year = Int(values[2].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
-            let theme = values[3].trimmingCharacters(in: .whitespacesAndNewlines)
-            let num_parts = Int(values[4].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
-            let img_url = values[5].trimmingCharacters(in: .whitespacesAndNewlines)
-            let instructions_url = values[6].trimmingCharacters(in: .whitespacesAndNewlines)
-
-            let legoSet = LegoSetModel(
-                set_num: set_num,
-                name: name,
-                year: year,
-                theme: theme,
-                num_parts: num_parts,
-                img_url: img_url,
-                instructions_url: instructions_url
+            let set = LegoSetModel(
+                set_num: values[0].trimmingCharacters(in: .whitespacesAndNewlines),
+                name: values[1].trimmingCharacters(in: .whitespacesAndNewlines),
+                year: Int(values[2].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0,
+                theme: values[3].trimmingCharacters(in: .whitespacesAndNewlines),
+                num_parts: Int(values[4].trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0,
+                img_url: values[5].trimmingCharacters(in: .whitespacesAndNewlines),
+                instructions_url: values[6].trimmingCharacters(in: .whitespacesAndNewlines)
             )
-            legoSets.append(legoSet)
+            legoSets.append(set)
         }
 
         return legoSets
     }
-    
+
     // Wishlist Management Functions
     private static let wishlistKey = "userWishlist"
-    
+
     static func addToWishlist(_ set: LegoSetModel) {
         var wishlist = loadWishlist()
         if !wishlist.contains(where: { $0.set_num == set.set_num }) {
@@ -69,13 +56,13 @@ class DataController {
             saveWishlist(wishlist)
         }
     }
-    
+
     static func removeFromWishlist(_ set: LegoSetModel) {
         var wishlist = loadWishlist()
         wishlist.removeAll { $0.set_num == set.set_num }
         saveWishlist(wishlist)
     }
-    
+
     static func loadWishlist() -> [LegoSetModel] {
         if let data = UserDefaults.standard.data(forKey: wishlistKey),
            let wishlist = try? JSONDecoder().decode([LegoSetModel].self, from: data) {
@@ -83,20 +70,55 @@ class DataController {
         }
         return []
     }
-    
+
     static func saveWishlist(_ sets: [LegoSetModel]) {
         if let encoded = try? JSONEncoder().encode(sets) {
             UserDefaults.standard.set(encoded, forKey: wishlistKey)
         }
     }
-    
+
     static func isInWishlist(_ set: LegoSetModel) -> Bool {
         let wishlist = loadWishlist()
         return wishlist.contains { $0.set_num == set.set_num }
     }
-} 
 
-// Add this CSV parser class
+    // Collection Management Functions
+    private static let collectionKey = "userCollection"
+
+    static func addToCollection(_ set: LegoSetModel) {
+        var collection = loadCollection()
+        if !collection.contains(where: { $0.set_num == set.set_num }) {
+            collection.append(set)
+            saveCollection(collection)
+        }
+    }
+
+    static func removeFromCollection(_ set: LegoSetModel) {
+        var collection = loadCollection()
+        collection.removeAll { $0.set_num == set.set_num }
+        saveCollection(collection)
+    }
+
+    static func loadCollection() -> [LegoSetModel] {
+        if let data = UserDefaults.standard.data(forKey: collectionKey),
+           let collection = try? JSONDecoder().decode([LegoSetModel].self, from: data) {
+            return collection
+        }
+        return []
+    }
+
+    static func saveCollection(_ sets: [LegoSetModel]) {
+        if let encoded = try? JSONEncoder().encode(sets) {
+            UserDefaults.standard.set(encoded, forKey: collectionKey)
+        }
+    }
+
+    static func isInCollection(_ set: LegoSetModel) -> Bool {
+        let collection = loadCollection()
+        return collection.contains { $0.set_num == set.set_num }
+    }
+}
+
 class CSVParser {
     func parse(line: String) -> [String]? {
         var fields: [String] = []
@@ -114,9 +136,7 @@ class CSVParser {
             }
         }
         
-        // Add the last field
         fields.append(currentField)
-        
         return fields
     }
 }

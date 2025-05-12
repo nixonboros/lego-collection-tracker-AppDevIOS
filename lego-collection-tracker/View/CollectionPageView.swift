@@ -49,8 +49,14 @@ struct CollectionPageView: View {
             }
         }
         .onAppear {
-            // TODO: Load collection sets
-            collectionSets = []
+            DispatchQueue.global(qos: .userInitiated).async {
+                let loadedSets = DataController.loadCollection()
+                
+                // Then show them on screen
+                DispatchQueue.main.async {
+                    collectionSets = loadedSets
+                }
+            }
         }
     }
 }
@@ -175,7 +181,7 @@ private struct CollectionSetRowView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "calendar")
                             .font(.system(size: 14, weight: .medium))
-                        Text("\(set.year)")
+                        Text("\(set.year.description)")
                             .font(.system(size: 14, weight: .medium))
                     }
                     .foregroundColor(.gray)

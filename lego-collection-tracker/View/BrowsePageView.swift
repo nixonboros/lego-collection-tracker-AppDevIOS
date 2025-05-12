@@ -185,7 +185,7 @@ private struct SetRowView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "calendar")
                             .font(.system(size: 14, weight: .medium))
-                        Text("\(set.year)")
+                        Text("\(set.year.description)")
                             .font(.system(size: 14, weight: .medium))
                     }
                     .foregroundColor(.gray)
