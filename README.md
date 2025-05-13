@@ -12,52 +12,64 @@ https://github.com/nixonboros/lego-collection-tracker-AppDevIOS
 ## Project App Features
 ### 1. Home Page
 - **Purpose**: Quick overview of your collection and stats
-- **Functionality**: Acts as the central hub of the app, showing summary counts and navigation options
-- **Buttons**:
-  - `Browse` → navigates to *Browse Page*
-  - `View Collection` → navigates to *Collection Page*
-  - `View Wishlist` → navigates to *Wishlist Page*
+- **Functionality**: 
+  - Shows total collection count with built/unbuilt statistics
+  - Displays wishlist count and favourite sets
+  - Features an auto-scrolling of favourited wishlist sets
+  - Animated interface on load
+- **Stats Cards**:
+  - Total Sets (with built/unbuilt breakdown)
+  - Wishlist (with next purchase preview)
 
 ---
 
 ### 2. Browse Page
 - **Purpose**: Search and add Lego sets from a built-in set database (using CSV data from Rebrickable)
-- **Functionality**: Search Lego sets by name/set number, filter results, and add selected sets to your collection
-- **Buttons**:
-  - `Search` (name/set number)
-  - `Filter` (theme/year)
-  - `Add to Collection`
-  - `Add to Wishlist`
+- **Functionality**: 
+  - Search Lego sets by name/set number
+  - Sort by name, set number, theme, year, or parts
+  - Filter results with ascending/descending options
+- **Features**:
+  - Real-time search filtering
+  - Set preview with images and details
 
 ---
 
-### 3. Collection Page
-- **Purpose**: Show all added sets
-- **Functionality**: View your collection, apply filters, sort sets, and search for specific entries
-- **Buttons**:
-  - `Search` (name/set number)
-  - `Filter` (by theme/year/status)
-  - `Tap a Set` → opens *Set Detail Page*
+### 3. Set Detail Page
+- **Purpose**: View and manage individual set details
+- **Functionality**: 
+  - View complete set information
+  - View building instructions easily 
+  - Add selected set to collection or wishlist
+- **Features**:
+  - Image showcase
+  - Detailed set specifications
+  - PDF instruction viewer
+  - Collection/Wishlist management options
 
 ---
 
-### 4. Set Detail Page
-- **Purpose**: View and manage a single set from collection 
-- **Functionality**: See detailed information of a selected set, and edit or remove it from your collection
-- **Buttons**:
-  - `Edit Set`
-  - `Delete Set`
-  - `Mark as Complete/Incomplete`
-  - `Back`
+### 4. Collection Page
+- **Purpose**: Manage your LEGO collection
+- **Functionality**: 
+  - View all collected sets
+  - Track built/unbuilt status
+  - Filter by all/built/unbuilt
+  - Search and sort functionality
+- **Features**:
+  - Built/Unbuilt toggle for each set
+  - Easy access to detailed set details
 
 ---
 
 ### 5. Wishlist Page
-- **Purpose**: Show planned sets to collect
-- **Functionality**: Add sets you're interested in, track wishlist progress, and move purchased sets to collection
-- **Buttons**:
-  - `+ Add to Wishlist`
-  - `Mark as Purchased` → moves item to collection
-  - `Edit Wishlist Item`
-  - `Delete`
-
+- **Purpose**: Track desired LEGO sets
+- **Functionality**: 
+  - Add sets to wishlist
+  - Mark sets as favourites
+  - Move purchased sets easily from wishlist to collection
+  - Track wishlist progress
+- **Features**:
+  - Favorite sets highlighting
+  - Quick add to collection
+  - Search and sort options
