@@ -4,13 +4,13 @@ A SwiftUI app that helps Lego enthusiasts organize, track, and manage their Lego
 ## Github Repository
 https://github.com/nixonboros/lego-collection-tracker-AppDevIOS
 
+## Presentation
+https://www.canva.com/design/DAGm1c_57OI/2UBTFY-5mWKZ_NROsmCoBg/view?utm_content=DAGm1c_57OI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha97a874faf 
+
 ## Team Members
 - Nixon Boros - 24566667 
 - Rohan Gupta - 25495033
 - Michael Elasi - 24844755
-
-## Presnetation
-https://www.canva.com/design/DAGm1c_57OI/2UBTFY-5mWKZ_NROsmCoBg/view?utm_content=DAGm1c_57OI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha97a874faf 
 
 ## Project App Features
 ### 1. Home Page
