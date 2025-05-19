@@ -2,7 +2,7 @@
 A SwiftUI app that helps Lego enthusiasts organize, track, and manage their Lego collections. Built for iOS as part of an App Development group assignment at UTS.
 
 ## Github Repository
-https://github.com/nixonboros/lego-collection-tracker-AppDevIOS
+https://github.com/nixonboros/lego-collection-tracker-ios
 
 ## Presentation
 https://www.canva.com/design/DAGm1c_57OI/2UBTFY-5mWKZ_NROsmCoBg/view?utm_content=DAGm1c_57OI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha97a874faf 
